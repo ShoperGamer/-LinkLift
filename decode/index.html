@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="เครื่องมือถอดรหัส URL ฟรี แปลง encoded URL เป็นรูปแบบปกติพร้อมแสดงตัวอย่างหน้าเว็บ">
+    <meta name="keywords" content="LinkLift, url, decode, link, shopergamer, charifkub, animexo, shoperteam">
+    <title>LinkLift</title>
+    <link rel="stylesheet" href="src/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen font-ibm">
+    <!-- Header Section -->
+    <header class="bg-white/90 backdrop-blur-md shadow-md sticky top-0 z-10">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <h1 class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent flex items-center">
+                    <i class="fas fa-link mr-2"></i><span id="header-title">LinkLift</span>
+                </h1>
+                <nav class="hidden md:block">
+                    <ul class="flex space-x-6 items-center">
+                        <li><a href="#tool" class="text-gray-700 hover:text-blue-600 transition-all duration-300 font-medium" id="nav-tool">เครื่องมือ</a></li>
+                        <li><a href="#about" class="text-gray-700 hover:text-blue-600 transition-all duration-300 font-medium" id="nav-about">เกี่ยวกับ</a></li>
+                        <li><a href="#faq" class="text-gray-700 hover:text-blue-600 transition-all duration-300 font-medium" id="nav-faq">คำถามที่พบบ่อย</a></li>
+                        <li class="relative">
+                            <button id="language-toggle" class="flex items-center text-gray-700 hover:text-blue-600 transition-all duration-300 font-medium">
+                                <i class="fas fa-globe mr-1"></i>
+                                <span id="current-language">ไทย</span>
+                                <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                            </button>
+                            <div id="language-dropdown" class="absolute right-0 mt-2 w-32 bg-white rounded-md shadow-lg py-1 hidden z-20">
+                                <button data-lang="th" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-100 w-full text-left flex items-center">
+                                    <span class="mr-2">🇹🇭</span> ไทย
+                                </button>
+                                <button data-lang="en" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-100 w-full text-left flex items-center">
+                                    <span class="mr-2">🇺🇸</span> English
+                                </button>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="md:hidden flex items-center">
+                    <button id="language-toggle-mobile" class="mr-4 text-gray-700">
+                        <i class="fas fa-globe text-xl"></i>
+                    </button>
+                    <button id="mobile-menu-btn" class="text-gray-700">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Language Menu (hidden by default) -->
+    <div id="mobile-language-menu" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden">
+        <div class="absolute top-0 right-0 h-full w-3/4 max-w-xs bg-white shadow-lg">
+            <div class="p-4 border-b">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-lg font-semibold">เลือกภาษา</h3>
+                    <button id="close-language-menu" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="p-4">
+                <button data-lang="th" class="w-full py-3 px-4 text-left border-b border-gray-200 hover:bg-blue-50 flex items-center">
+                    <span class="mr-3">🇹🇭</span> ไทย
+                </button>
+                <button data-lang="en" class="w-full py-3 px-4 text-left border-b border-gray-200 hover:bg-blue-50 flex items-center">
+                    <span class="mr-3">🇺🇸</span> English
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Menu (hidden by default) -->
+    <div id="mobile-menu" class="md:hidden bg-white border-t border-gray-200 hidden">
+        <div class="container mx-auto px-4 py-3">
+            <ul class="space-y-3">
+                <li><a href="#tool" class="block py-2 text-gray-700 font-medium" id="mobile-nav-tool">เครื่องมือ</a></li>
+                <li><a href="#about" class="block py-2 text-gray-700 font-medium" id="mobile-nav-about">เกี่ยวกับ</a></li>
+                <li><a href="#faq" class="block py-2 text-gray-700 font-medium" id="mobile-nav-faq">คำถามที่พบบ่อย</a></li>
+                <li><button id="mobile-language-btn" class="block py-2 text-gray-700 font-medium w-full text-left">
+                    <i class="fas fa-globe mr-2"></i> <span id="mobile-current-language">เปลี่ยนภาษา (ไทย)</span>
+                </button></li>
+            </ul>
+        </div>
+    </div>
+
+    <main class="container mx-auto px-4 py-8">
+        <!-- Hero Section -->
+        <section class="text-center mb-16 fade-in">
+            <div class="inline-flex items-center justify-center p-2 bg-blue-100 rounded-full mb-6">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-500 text-white rounded-full">
+                    <i class="fas fa-link text-2xl"></i>
+                </div>
+            </div>
+            <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4 leading-tight" id="hero-title">ถอดรหัส URL ของคุณ<br>ในไม่กี่วินาที</h2>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto mb-8" id="hero-description">
+                เครื่องมือฟรีสำหรับถอดรหัส URL ที่เข้ารหัสแล้ว แปลง %20 และรหัสพิเศษอื่น ๆ เป็นตัวอักษรที่อ่านได้
+            </p>
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 max-w-2xl mx-auto">
+                <p class="text-blue-700 flex items-center justify-center" id="security-note">
+                    <i class="fas fa-shield-alt mr-2"></i>ปลอดภัย 100%: เราไม่เก็บข้อมูล URL ของคุณ
+                </p>
+            </div>
+        </section>
+
+        <!-- Tool Section -->
+        <section id="tool" class="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-16 fade-in">
+            <div class="mb-8">
+                <div class="flex items-center mb-4">
+                    <div class="flex items-center justify-center w-10 h-10 bg-blue-100 text-blue-600 rounded-lg mr-3">
+                        <i class="fas fa-pencil-alt"></i>
+                    </div>
+                    <label for="urlInput" class="block text-xl font-semibold text-gray-800" id="input-label">
+                        วาง URL ที่เข้ารหัสที่นี่
+                    </label>
+                </div>
+                <div class="flex flex-col md:flex-row gap-4">
+                    <input 
+                        type="text" 
+                        id="urlInput" 
+                        placeholder="https://example.com/%E0%B8%AA%E0%B8%A7%E0%B8%B1%E0%B8%AA%E0%B8%94%E0%B8%B5" 
+                        class="flex-grow px-5 py-4 border border-gray-300 rounded-xl focus:ring-4 focus:ring-blue-200 focus:border-blue-500 transition shadow-sm"
+                    >
+                    <button id="decodeBtn" class="px-8 py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-300 flex items-center justify-center shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                        <i class="fas fa-bolt mr-2"></i><span id="decode-button-text">ถอดรหัส</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Result Section -->
+            <div id="resultSection" class="hidden fade-in">
+                <div class="flex items-center mb-6">
+                    <div class="flex items-center justify-center w-10 h-10 bg-green-100 text-green-600 rounded-lg mr-3">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800" id="result-title">ผลลัพธ์</h3>
+                </div>
+                
+                <div class="mb-8">
+                    <label class="block text-lg font-medium text-gray-700 mb-3" id="decoded-url-label">URL หลังถอดรหัส</label>
+                    <div class="flex flex-col md:flex-row gap-3">
+                        <input 
+                            type="text" 
+                            id="decodedOutput" 
+                            readonly
+                            class="flex-grow px-5 py-3 bg-gray-50 border border-gray-300 rounded-xl font-mono text-blue-700" 
+                        >
+                        <button id="copyBtn" class="px-5 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white font-medium rounded-xl hover:from-green-600 hover:to-green-700 transition flex items-center justify-center shadow-md md:w-auto w-full">
+                            <i class="fas fa-copy mr-2"></i><span id="copy-button-text">คัดลอก</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Preview Section -->
+                <div>
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-3">
+                        <div class="flex items-center">
+                            <div class="flex items-center justify-center w-10 h-10 bg-blue-100 text-blue-600 rounded-lg mr-3">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold text-gray-800" id="preview-title">พรีวิวหน้าเว็บ</h3>
+                        </div>
+                        <a id="openLink" target="_blank" rel="noopener" class="px-4 py-2 text-blue-600 hover:text-blue-800 transition flex items-center bg-blue-50 hover:bg-blue-100 rounded-lg">
+                            <span id="open-new-tab-text">เปิดในแท็บใหม่</span> <i class="fas fa-external-link-alt ml-2"></i>
+                        </a>
+                    </div>
+                    
+                    <div class="border rounded-xl overflow-hidden shadow-sm">
+                        <div class="bg-gray-100 py-2 px-4 flex items-center">
+                            <div class="flex space-x-2">
+                                <div class="w-3 h-3 bg-red-400 rounded-full"></div>
+                                <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
+                                <div class="w-3 h-3 bg-green-400 rounded-full"></div>
+                            </div>
+                            <div class="flex-grow text-center text-sm text-gray-600 font-mono truncate mx-2" id="urlDisplay"></div>
+                        </div>
+                        <div class="bg-white h-96">
+                            <iframe 
+                                id="previewFrame" 
+                                class="w-full h-full" 
+                                frameborder="0"
+                                sandbox="allow-same-origin allow-scripts"
+                                loading="lazy"
+                            ></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="mb-16 fade-in">
+            <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center" id="about-title">เกี่ยวกับเครื่องมือนี้</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow duration-300">
+                    <div class="flex items-center mb-4">
+                        <div class="flex items-center justify-center w-12 h-12 bg-blue-100 text-blue-600 rounded-xl mr-4">
+                            <i class="fas fa-info-circle text-lg"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800" id="about-subtitle-1">URL Encoding คืออะไร?</h3>
+                    </div>
+                    <p class="text-gray-700 leading-relaxed" id="about-content-1">
+                        URL Encoding คือกระบวนการแปลงอักขระใน URL ให้อยู่ในรูปแบบที่ปลอดภัยสำหรับการส่งผ่านอินเทอร์เน็ต 
+                        ตัวอย่างเช่น ช่องว่างจะถูกแปลงเป็น %20 อักขระพิเศษต่าง ๆ ก็จะถูกแปลงเป็นรหัสเฉพาะ
+                    </p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow duration-300">
+                    <div class="flex items-center mb-4">
+                        <div class="flex items-center justify-center w-12 h-12 bg-blue-100 text-blue-600 rounded-xl mr-4">
+                            <i class="fas fa-wrench text-lg"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800" id="about-subtitle-2">เครื่องมือนี้ช่วยอะไรได้บ้าง?</h3>
+                    </div>
+                    <p class="text-gray-700 leading-relaxed" id="about-content-2">
+                        เครื่องมือของเราช่วยถอดรหัส URL ที่ถูก encode แล้วให้กลับไปเป็นรูปแบบปกติที่มนุษย์อ่านเข้าใจได้ 
+                        พร้อมทั้งแสดงตัวอย่างเว็บไซต์นั้นๆ เพื่อให้คุณมั่นใจได้ว่าเป็นลิงก์ที่ถูกต้องก่อนเข้าชม
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="mb-16 fade-in">
+            <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center" id="faq-title">คำถามที่พบบ่อย</h2>
+            <div class="bg-white rounded-2xl shadow-md overflow-hidden">
+                <div class="p-6 border-b border-gray-100 hover:bg-gray-50 transition-colors duration-200">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2 flex items-center">
+                        <i class="fas fa-question-circle text-blue-500 mr-2"></i>
+                        <span id="faq-question-1">การถอดรหัส URL ปลอดภัยหรือไม่?</span>
+                    </h3>
+                    <p class="text-gray-700 pl-7" id="faq-answer-1">การถอดรหัส URL นั้นปลอดภัย เนื่องจากเราไม่มีการบันทึกหรือเก็บข้อมูล URL ของคุณไว้ในเซิร์ฟเวอร์ใดๆ ทั้งสิ้น การประมวลผลทั้งหมดเกิดขึ้นบนเบราว์เซอร์ของคุณ</p>
+                </div>
+                <div class="p-6 border-b border-gray-100 hover:bg-gray-50 transition-colors duration-200">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2 flex items-center">
+                        <i class="fas fa-question-circle text-blue-500 mr-2"></i>
+                        <span id="faq-question-2">ทำไมบางลิงก์ถึงไม่แสดงผลพรีวิว?</span>
+                    </h3>
+                    <p class="text-gray-700 pl-7" id="faq-answer-2">บางเว็บไซต์มีนโยบายป้องกันการแสดงผลใน iframe (X-Frame-Options) ซึ่งทำให้ไม่สามารถแสดงพรีวิวได้ ในกรณีนี้คุณสามารถใช้ปุ่ม "เปิดในแท็บใหม่" เพื่อดูเนื้อหาของเว็บไซต์ได้</p>
+                </div>
+                <div class="p-6 hover:bg-gray-50 transition-colors duration-200">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2 flex items-center">
+                        <i class="fas fa-question-circle text-blue-500 mr-2"></i>
+                        <span id="faq-question-3">เครื่องมือนี้รองรับ URL ประเภทใดบ้าง?</span>
+                    </h3>
+                    <p class="text-gray-700 pl-7" id="faq-answer-3">เครื่องมือของเราสามารถถอดรหัส URL ได้ทุกประเภท ทั้ง HTTP, HTTPS และโปรโตคอลอื่นๆ รวมถึงรองรับอักขระทุกภาษา</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <p id="footer-text">© 2025 LinkLift</p>
+            <p class="mt-2 text-gray-400" id="footer-built">สร้างขึ้นด้วย HTML, TailwindCSS และ JavaScript</p>
+        </div>
+    </footer>
+    <script src="src/app.js"></script>
+</body>
+</html>
