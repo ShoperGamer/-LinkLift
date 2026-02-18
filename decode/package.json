@@ -12,7 +12,8 @@
     "vite": "^7.1.2"
   },
   "dependencies": {
-    "@tailwindcss/vite": "^4.1.12",
-    "tailwindcss": "^4.1.12"
+    "@tailwindcss/vite": "^4.1.18",
+    "bootstrap-icons": "^1.13.1",
+    "tailwindcss": "^4.1.18"
   }
 }
