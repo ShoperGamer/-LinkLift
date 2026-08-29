@@ -2,182 +2,233 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <meta name="description" content="เครื่องมือถอดรหัส URL ฟรี แปลง encoded URL เป็นรูปแบบปกติพร้อมแสดงตัวอย่างหน้าเว็บ">
     <meta name="keywords" content="LinkLift, url, decode, link, shopergamer, charifkub, animexo, shoperteam">
+    <meta name="theme-color" content="#2563eb">
     <title>LinkLift</title>
+    <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="src/styles.css">
-    <link rel="stylesheet" href="src/css/all.min.css">
+    <link rel="icon" href="logo.png" type="image/x-icon">
 </head>
-<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen font-ibm">
+<body class="bg-gradient-to-br from-blue-50 via-indigo-50/50 to-purple-50 min-h-screen font-ibm text-gray-800 antialiased flex flex-col justify-between selection:bg-blue-500 selection:text-white">
+
+    <!-- Offline Status Toast Notification -->
+    <div id="connection-status" class="hidden fixed bottom-4 right-4 z-50 px-4 py-3 rounded-xl shadow-xl text-sm font-medium transition-all duration-300 flex items-center gap-2"></div>
+
     <!-- Header Section -->
-    <header class="bg-white/90 backdrop-blur-md shadow-md sticky top-0 z-10">
-        <div class="container mx-auto px-4 py-3">
+    <header class="bg-white/80 backdrop-blur-lg border-b border-gray-100 shadow-sm sticky top-0 z-30 transition-all">
+        <div class="max-w-7xl 2xl:max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5">
             <div class="flex justify-between items-center">
-                <h1 class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent flex items-center">
-                    <i class="fas fa-link mr-2"></i><span id="header-title">LinkLift</span>
-                </h1>
-                <nav class="hidden md:block">
-                    <ul class="flex space-x-6 items-center">
-                        <li><a href="#tool" class="text-gray-700 hover:text-blue-600 transition-all duration-300 font-medium" id="nav-tool">เครื่องมือ</a></li>
-                        <li><a href="#about" class="text-gray-700 hover:text-blue-600 transition-all duration-300 font-medium" id="nav-about">เกี่ยวกับ</a></li>
-                        <li><a href="#faq" class="text-gray-700 hover:text-blue-600 transition-all duration-300 font-medium" id="nav-faq">คำถามที่พบบ่อย</a></li>
+                <a href="#" class="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent flex items-center gap-2.5 focus:outline-none">
+                    <svg class="w-7 h-7 text-blue-600 inline-block flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+                    </svg>
+                    <span id="header-title" class="tracking-tight">LinkLift</span>
+                </a>
+                
+                <nav class="hidden md:flex items-center gap-8">
+                    <ul class="flex space-x-8 items-center text-base lg:text-lg">
+                        <li><a href="#tool" class="text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium" id="nav-tool">เครื่องมือ</a></li>
+                        <li><a href="#about" class="text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium" id="nav-about">เกี่ยวกับ</a></li>
+                        <li><a href="#faq" class="text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium" id="nav-faq">คำถามที่พบบ่อย</a></li>
                         <li class="relative">
-                            <button id="language-toggle" class="flex items-center text-gray-700 hover:text-blue-600 transition-all duration-300 font-medium">
-                                <i class="fas fa-globe mr-1"></i>
+                            <button id="language-toggle" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-200 hover:border-blue-300 text-gray-700 hover:text-blue-600 bg-gray-50/50 hover:bg-white transition-all font-medium text-sm">
+                                <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
+                                </svg>
                                 <span id="current-language">ไทย</span>
-                                <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                                <svg class="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
+                                </svg>
                             </button>
-                            <div id="language-dropdown" class="absolute right-0 mt-2 w-32 bg-white rounded-md shadow-lg py-1 hidden z-20">
-                                <button data-lang="th" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-100 w-full text-left flex items-center">
-                                    <span class="mr-2">🇹🇭</span> ไทย
+                            <div id="language-dropdown" class="absolute right-0 mt-2 w-36 bg-white rounded-xl shadow-xl border border-gray-100 py-1.5 hidden z-40">
+                                <button data-lang="th" class="w-full px-4 py-2 text-sm text-gray-700 hover:bg-blue-50/70 text-left flex items-center gap-2.5 transition">
+                                    <span>🇹🇭</span> ไทย
                                 </button>
-                                <button data-lang="en" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-100 w-full text-left flex items-center">
-                                    <span class="mr-2">🇺🇸</span> English
+                                <button data-lang="en" class="w-full px-4 py-2 text-sm text-gray-700 hover:bg-blue-50/70 text-left flex items-center gap-2.5 transition">
+                                    <span>🇺🇸</span> English
                                 </button>
                             </div>
                         </li>
                     </ul>
                 </nav>
-                <div class="md:hidden flex items-center">
-                    <button id="language-toggle-mobile" class="mr-4 text-gray-700">
-                        <i class="fas fa-globe text-xl"></i>
+
+                <div class="md:hidden flex items-center gap-2">
+                    <button id="language-toggle-mobile" class="p-2 text-gray-600 hover:text-blue-600 rounded-lg hover:bg-gray-100 transition" aria-label="Toggle Language">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
+                        </svg>
                     </button>
-                    <button id="mobile-menu-btn" class="text-gray-700">
-                        <i class="fas fa-bars text-xl"></i>
+                    <button id="mobile-menu-btn" class="p-2 text-gray-600 hover:text-blue-600 rounded-lg hover:bg-gray-100 transition" aria-label="Open Menu">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
                     </button>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Mobile Language Menu (hidden by default) -->
-    <div id="mobile-language-menu" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden">
-        <div class="absolute top-0 right-0 h-full w-3/4 max-w-xs bg-white shadow-lg">
-            <div class="p-4 border-b">
-                <div class="flex justify-between items-center">
-                    <h3 class="text-lg font-semibold">เลือกภาษา</h3>
-                    <button id="close-language-menu" class="text-gray-500 hover:text-gray-700">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="p-4">
-                <button data-lang="th" class="w-full py-3 px-4 text-left border-b border-gray-200 hover:bg-blue-50 flex items-center">
-                    <span class="mr-3">🇹🇭</span> ไทย
+    <!-- Mobile Language Drawer -->
+    <div id="mobile-language-menu" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden transition-opacity">
+        <div class="absolute bottom-0 sm:bottom-auto sm:top-0 right-0 h-auto sm:h-full w-full sm:w-80 bg-white rounded-t-3xl sm:rounded-none shadow-2xl p-6">
+            <div class="flex justify-between items-center pb-4 border-b border-gray-100">
+                <h3 class="text-lg font-bold text-gray-900">เลือกภาษา / Language</h3>
+                <button id="close-language-menu" class="p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-100">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
                 </button>
-                <button data-lang="en" class="w-full py-3 px-4 text-left border-b border-gray-200 hover:bg-blue-50 flex items-center">
-                    <span class="mr-3">🇺🇸</span> English
+            </div>
+            <div class="py-4 space-y-2">
+                <button data-lang="th" class="w-full py-3.5 px-4 text-left rounded-xl hover:bg-blue-50 border border-transparent hover:border-blue-200 flex items-center gap-3 text-base font-medium transition">
+                    <span class="text-xl">🇹🇭</span> ภาษาไทย
+                </button>
+                <button data-lang="en" class="w-full py-3.5 px-4 text-left rounded-xl hover:bg-blue-50 border border-transparent hover:border-blue-200 flex items-center gap-3 text-base font-medium transition">
+                    <span class="text-xl">🇺🇸</span> English
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Mobile Menu (hidden by default) -->
-    <div id="mobile-menu" class="md:hidden bg-white border-t border-gray-200 hidden">
-        <div class="container mx-auto px-4 py-3">
-            <ul class="space-y-3">
-                <li><a href="#tool" class="block py-2 text-gray-700 font-medium" id="mobile-nav-tool">เครื่องมือ</a></li>
-                <li><a href="#about" class="block py-2 text-gray-700 font-medium" id="mobile-nav-about">เกี่ยวกับ</a></li>
-                <li><a href="#faq" class="block py-2 text-gray-700 font-medium" id="mobile-nav-faq">คำถามที่พบบ่อย</a></li>
-                <li><button id="mobile-language-btn" class="block py-2 text-gray-700 font-medium w-full text-left">
-                    <i class="fas fa-globe mr-2"></i> <span id="mobile-current-language">เปลี่ยนภาษา (ไทย)</span>
-                </button></li>
-            </ul>
-        </div>
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-menu" class="md:hidden bg-white/95 backdrop-blur-md border-b border-gray-200 hidden px-4 py-3">
+        <ul class="space-y-2">
+            <li><a href="#tool" class="block py-2.5 px-3 rounded-lg text-gray-700 font-medium hover:bg-blue-50 hover:text-blue-600 transition" id="mobile-nav-tool">เครื่องมือ</a></li>
+            <li><a href="#about" class="block py-2.5 px-3 rounded-lg text-gray-700 font-medium hover:bg-blue-50 hover:text-blue-600 transition" id="mobile-nav-about">เกี่ยวกับ</a></li>
+            <li><a href="#faq" class="block py-2.5 px-3 rounded-lg text-gray-700 font-medium hover:bg-blue-50 hover:text-blue-600 transition" id="mobile-nav-faq">คำถามที่พบบ่อย</a></li>
+        </ul>
     </div>
 
-    <main class="container mx-auto px-4 py-8">
+    <main class="max-w-7xl 2xl:max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16 w-full flex-grow">
         <!-- Hero Section -->
-        <section class="text-center mb-16 fade-in">
-            <div class="inline-flex items-center justify-center p-2 bg-blue-100 rounded-full mb-6">
-                <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-500 text-white rounded-full">
-                    <i class="fas fa-link text-2xl"></i>
+        <section class="text-center mb-10 sm:mb-16 fade-in max-w-4xl 2xl:max-w-5xl mx-auto">
+            <div class="inline-flex items-center justify-center p-2.5 bg-blue-100/80 rounded-3xl mb-6 shadow-inner">
+                <div class="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-tr from-blue-600 to-indigo-600 text-white rounded-2xl shadow-md">
+                    <svg class="w-7 h-7 sm:w-8 sm:h-8" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+                    </svg>
                 </div>
             </div>
-            <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4 leading-tight" id="hero-title">ถอดรหัส URL ของคุณ<br>ในไม่กี่วินาที</h2>
-            <p class="text-lg text-gray-600 max-w-2xl mx-auto mb-8" id="hero-description">
-                เครื่องมือฟรีสำหรับถอดรหัส URL ที่เข้ารหัสแล้ว แปลง %20 และรหัสพิเศษอื่น ๆ เป็นตัวอักษรที่อ่านได้
+            <h2 class="text-3xl sm:text-5xl 2xl:text-6xl font-extrabold text-gray-900 mb-4 tracking-tight leading-tight sm:leading-tight" id="hero-title">
+                ถอดรหัส URL ของคุณ<br class="hidden sm:inline"> ในไม่กี่วินาที
+            </h2>
+            <p class="text-base sm:text-lg 2xl:text-xl text-gray-600 max-w-2xl 2xl:max-w-3xl mx-auto mb-6 leading-relaxed" id="hero-description">
+                เครื่องมือฟรีสำหรับถอดรหัส URL ที่เข้ารหัสแล้ว แปลง %20 และรหัสพิเศษอื่นๆ เป็นตัวอักษรปกติ ทำงานได้แม้ไม่มีอินเทอร์เน็ต
             </p>
-            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 max-w-2xl mx-auto">
-                <p class="text-blue-700 flex items-center justify-center" id="security-note">
-                    <i class="fas fa-shield-alt mr-2"></i>ปลอดภัย 100%: เราไม่เก็บข้อมูล URL ของคุณ
+            <div class="inline-flex items-center bg-white/80 backdrop-blur-md border border-blue-200/80 rounded-full px-4 py-2 shadow-sm max-w-full">
+                <p class="text-xs sm:text-sm text-blue-700 flex items-center justify-center font-medium" id="security-note">
+                    <svg class="w-4 h-4 mr-1.5 text-blue-600 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                    </svg>
+                    ปลอดภัย 100%: การทำงานทั้งหมดเกิดขึ้นบนอุปกรณ์ของคุณ
                 </p>
             </div>
         </section>
 
         <!-- Tool Section -->
-        <section id="tool" class="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-16 fade-in">
+        <section id="tool" class="bg-white rounded-3xl shadow-xl shadow-indigo-100/50 border border-gray-100 p-6 sm:p-8 lg:p-10 mb-12 sm:mb-20 fade-in max-w-5xl 2xl:max-w-6xl mx-auto">
             <div class="mb-8">
                 <div class="flex items-center mb-4">
-                    <div class="flex items-center justify-center w-10 h-10 bg-blue-100 text-blue-600 rounded-lg mr-3">
-                        <i class="fas fa-pencil-alt"></i>
+                    <div class="flex items-center justify-center w-10 h-10 bg-blue-100/80 text-blue-600 rounded-xl mr-3 shadow-sm">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+                        </svg>
                     </div>
-                    <label for="urlInput" class="block text-xl font-semibold text-gray-800" id="input-label">
+                    <label for="urlInput" class="block text-lg sm:text-xl font-bold text-gray-800" id="input-label">
                         วาง URL ที่เข้ารหัสที่นี่
                     </label>
                 </div>
-                <div class="flex flex-col md:flex-row gap-4">
-                    <input 
-                        type="text" 
-                        id="urlInput" 
-                        placeholder="https://example.com/%E0%B8%AA%E0%B8%A7%E0%B8%B1%E0%B8%AA%E0%B8%94%E0%B8%B5" 
-                        class="flex-grow px-5 py-4 border border-gray-300 rounded-xl focus:ring-4 focus:ring-blue-200 focus:border-blue-500 transition shadow-sm"
-                    >
-                    <button id="decodeBtn" class="px-8 py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-300 flex items-center justify-center shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
-                        <i class="fas fa-bolt mr-2"></i><span id="decode-button-text">ถอดรหัส</span>
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <!-- URL Input with Clear (✕) Button Wrapper -->
+                    <div class="relative flex-grow flex items-center">
+                        <input 
+                            type="text" 
+                            id="urlInput" 
+                            placeholder="https://example.com/%E0%B8%AA%E0%B8%A7%E0%B8%B1%E0%B8%AA%E0%B8%94%E0%B8%B5" 
+                            class="w-full pl-5 pr-12 py-4 bg-gray-50/50 border border-gray-200 rounded-2xl focus:bg-white focus:ring-4 focus:ring-blue-100 focus:border-blue-500 transition-all shadow-inner text-sm sm:text-base outline-none"
+                        >
+                        <button 
+                            id="clearInputBtn" 
+                            type="button" 
+                            title="ล้างข้อความ" 
+                            aria-label="ล้างข้อความ"
+                            class="hidden absolute right-3.5 p-1.5 text-gray-400 hover:text-red-500 hover:bg-gray-100 rounded-xl transition-all focus:outline-none"
+                        >
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <button id="decodeBtn" class="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-2xl transition-all duration-200 flex items-center justify-center shadow-lg shadow-blue-500/25 active:scale-95 flex-shrink-0">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                        <span id="decode-button-text">ถอดรหัส</span>
                     </button>
                 </div>
             </div>
 
             <!-- Result Section -->
-            <div id="resultSection" class="hidden fade-in">
+            <div id="resultSection" class="hidden fade-in pt-6 border-t border-gray-100">
                 <div class="flex items-center mb-6">
-                    <div class="flex items-center justify-center w-10 h-10 bg-green-100 text-green-600 rounded-lg mr-3">
-                        <i class="fas fa-check-circle"></i>
+                    <div class="flex items-center justify-center w-10 h-10 bg-emerald-100 text-emerald-600 rounded-xl mr-3 shadow-sm">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-800" id="result-title">ผลลัพธ์</h3>
+                    <h3 class="text-lg sm:text-xl font-bold text-gray-800" id="result-title">ผลลัพธ์</h3>
                 </div>
                 
                 <div class="mb-8">
-                    <label class="block text-lg font-medium text-gray-700 mb-3" id="decoded-url-label">URL หลังถอดรหัส</label>
-                    <div class="flex flex-col md:flex-row gap-3">
+                    <label class="block text-base font-semibold text-gray-700 mb-2.5" id="decoded-url-label">URL หลังถอดรหัส</label>
+                    <div class="flex flex-col sm:flex-row gap-3">
                         <input 
                             type="text" 
                             id="decodedOutput" 
                             readonly
-                            class="flex-grow px-5 py-3 bg-gray-50 border border-gray-300 rounded-xl font-mono text-blue-700" 
+                            class="w-full px-5 py-3.5 bg-gray-50 border border-gray-200 rounded-2xl font-mono text-sm sm:text-base text-blue-700 selection:bg-blue-100 select-all outline-none" 
                         >
-                        <button id="copyBtn" class="px-5 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white font-medium rounded-xl hover:from-green-600 hover:to-green-700 transition flex items-center justify-center shadow-md md:w-auto w-full">
-                            <i class="fas fa-copy mr-2"></i><span id="copy-button-text">คัดลอก</span>
+                        <button id="copyBtn" class="w-full sm:w-auto px-6 py-3.5 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-medium rounded-2xl transition flex items-center justify-center shadow-lg shadow-emerald-600/20 flex-shrink-0">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                            </svg>
+                            <span id="copy-button-text">คัดลอก</span>
                         </button>
                     </div>
                 </div>
 
                 <!-- Preview Section -->
                 <div>
-                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-3">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-3">
                         <div class="flex items-center">
-                            <div class="flex items-center justify-center w-10 h-10 bg-blue-100 text-blue-600 rounded-lg mr-3">
-                                <i class="fas fa-eye"></i>
+                            <div class="flex items-center justify-center w-10 h-10 bg-blue-100/80 text-blue-600 rounded-xl mr-3 shadow-sm">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                </svg>
                             </div>
-                            <h3 class="text-xl font-semibold text-gray-800" id="preview-title">พรีวิวหน้าเว็บ</h3>
+                            <h3 class="text-lg sm:text-xl font-bold text-gray-800" id="preview-title">พรีวิวหน้าเว็บ</h3>
                         </div>
-                        <a id="openLink" target="_blank" rel="noopener" class="px-4 py-2 text-blue-600 hover:text-blue-800 transition flex items-center bg-blue-50 hover:bg-blue-100 rounded-lg">
-                            <span id="open-new-tab-text">เปิดในแท็บใหม่</span> <i class="fas fa-external-link-alt ml-2"></i>
+                        <a id="openLink" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-blue-600 bg-blue-50/80 hover:bg-blue-100 hover:text-blue-800 rounded-xl transition">
+                            <span id="open-new-tab-text">เปิดในแท็บใหม่</span> 
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                            </svg>
                         </a>
                     </div>
                     
-                    <div class="border rounded-xl overflow-hidden shadow-sm">
-                        <div class="bg-gray-100 py-2 px-4 flex items-center">
-                            <div class="flex space-x-2">
-                                <div class="w-3 h-3 bg-red-400 rounded-full"></div>
-                                <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
-                                <div class="w-3 h-3 bg-green-400 rounded-full"></div>
+                    <div class="border border-gray-200 rounded-2xl overflow-hidden shadow-inner bg-gray-50">
+                        <div class="bg-gray-100/80 border-b border-gray-200 py-2.5 px-4 flex items-center">
+                            <div class="flex space-x-1.5">
+                                <div class="w-3 h-3 bg-rose-400 rounded-full"></div>
+                                <div class="w-3 h-3 bg-amber-400 rounded-full"></div>
+                                <div class="w-3 h-3 bg-emerald-400 rounded-full"></div>
                             </div>
-                            <div class="flex-grow text-center text-sm text-gray-600 font-mono truncate mx-2" id="urlDisplay"></div>
+                            <div class="flex-grow text-center text-xs sm:text-sm text-gray-500 font-mono truncate mx-3" id="urlDisplay"></div>
                         </div>
-                        <div class="bg-white h-96">
+                        <div class="bg-white h-72 sm:h-96 lg:h-[480px] 2xl:h-[600px] relative">
                             <iframe 
                                 id="previewFrame" 
                                 class="w-full h-full" 
@@ -192,69 +243,78 @@
         </section>
 
         <!-- About Section -->
-        <section id="about" class="mb-16 fade-in">
-            <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center" id="about-title">เกี่ยวกับเครื่องมือนี้</h2>
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow duration-300">
+        <section id="about" class="mb-12 sm:mb-20 fade-in max-w-6xl 2xl:max-w-7xl mx-auto">
+            <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-gray-900 mb-8 text-center" id="about-title">เกี่ยวกับเครื่องมือนี้</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+                <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-lg shadow-gray-100 border border-gray-100 hover:shadow-xl transition-all">
                     <div class="flex items-center mb-4">
-                        <div class="flex items-center justify-center w-12 h-12 bg-blue-100 text-blue-600 rounded-xl mr-4">
-                            <i class="fas fa-info-circle text-lg"></i>
+                        <div class="flex items-center justify-center w-12 h-12 bg-blue-100/80 text-blue-600 rounded-2xl mr-4 shadow-sm flex-shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
                         </div>
-                        <h3 class="text-xl font-semibold text-gray-800" id="about-subtitle-1">URL Encoding คืออะไร?</h3>
+                        <h3 class="text-lg sm:text-xl font-bold text-gray-800" id="about-subtitle-1">URL Encoding คืออะไร?</h3>
                     </div>
-                    <p class="text-gray-700 leading-relaxed" id="about-content-1">
-                        URL Encoding คือกระบวนการแปลงอักขระใน URL ให้อยู่ในรูปแบบที่ปลอดภัยสำหรับการส่งผ่านอินเทอร์เน็ต 
-                        ตัวอย่างเช่น ช่องว่างจะถูกแปลงเป็น %20 อักขระพิเศษต่าง ๆ ก็จะถูกแปลงเป็นรหัสเฉพาะ
+                    <p class="text-gray-600 text-sm sm:text-base leading-relaxed" id="about-content-1">
+                        URL Encoding คือกระบวนการแปลงอักขระใน URL ให้อยู่ในรูปแบบที่ปลอดภัยสำหรับการส่งผ่านอินเทอร์เน็ต ตัวอย่างเช่น ช่องว่างจะถูกแปลงเป็น %20 อักขระพิเศษต่าง ๆ ก็จะถูกแปลงเป็นรหัสเฉพาะ
                     </p>
                 </div>
-                <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow duration-300">
+                <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-lg shadow-gray-100 border border-gray-100 hover:shadow-xl transition-all">
                     <div class="flex items-center mb-4">
-                        <div class="flex items-center justify-center w-12 h-12 bg-blue-100 text-blue-600 rounded-xl mr-4">
-                            <i class="fas fa-wrench text-lg"></i>
+                        <div class="flex items-center justify-center w-12 h-12 bg-indigo-100/80 text-indigo-600 rounded-2xl mr-4 shadow-sm flex-shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
                         </div>
-                        <h3 class="text-xl font-semibold text-gray-800" id="about-subtitle-2">เครื่องมือนี้ช่วยอะไรได้บ้าง?</h3>
+                        <h3 class="text-lg sm:text-xl font-bold text-gray-800" id="about-subtitle-2">เครื่องมือนี้ช่วยอะไรได้บ้าง?</h3>
                     </div>
-                    <p class="text-gray-700 leading-relaxed" id="about-content-2">
-                        เครื่องมือของเราช่วยถอดรหัส URL ที่ถูก encode แล้วให้กลับไปเป็นรูปแบบปกติที่มนุษย์อ่านเข้าใจได้ 
-                        พร้อมทั้งแสดงตัวอย่างเว็บไซต์นั้นๆ เพื่อให้คุณมั่นใจได้ว่าเป็นลิงก์ที่ถูกต้องก่อนเข้าชม
+                    <p class="text-gray-600 text-sm sm:text-base leading-relaxed" id="about-content-2">
+                        เครื่องมือของเราช่วยถอดรหัส URL ที่ถูก encode แล้วให้กลับไปเป็นรูปแบบปกติที่มนุษย์อ่านเข้าใจได้ พร้อมทั้งแสดงตัวอย่างเว็บไซต์นั้นๆ เพื่อให้คุณมั่นใจได้ว่าเป็นลิงก์ที่ถูกต้องก่อนเข้าชม
                     </p>
                 </div>
             </div>
         </section>
 
         <!-- FAQ Section -->
-        <section id="faq" class="mb-16 fade-in">
-            <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center" id="faq-title">คำถามที่พบบ่อย</h2>
-            <div class="bg-white rounded-2xl shadow-md overflow-hidden">
-                <div class="p-6 border-b border-gray-100 hover:bg-gray-50 transition-colors duration-200">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-2 flex items-center">
-                        <i class="fas fa-question-circle text-blue-500 mr-2"></i>
+        <section id="faq" class="fade-in max-w-4xl 2xl:max-w-5xl mx-auto">
+            <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-gray-900 mb-8 text-center" id="faq-title">คำถามที่พบบ่อย</h2>
+            <div class="bg-white rounded-3xl shadow-lg border border-gray-100 overflow-hidden divide-y divide-gray-100">
+                <div class="p-6 sm:p-8 hover:bg-gray-50/50 transition-colors">
+                    <h3 class="text-base sm:text-lg font-bold text-gray-800 mb-2 flex items-center">
+                        <svg class="w-5 h-5 text-blue-500 mr-2.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
                         <span id="faq-question-1">การถอดรหัส URL ปลอดภัยหรือไม่?</span>
                     </h3>
-                    <p class="text-gray-700 pl-7" id="faq-answer-1">การถอดรหัส URL นั้นปลอดภัย เนื่องจากเราไม่มีการบันทึกหรือเก็บข้อมูล URL ของคุณไว้ในเซิร์ฟเวอร์ใดๆ ทั้งสิ้น การประมวลผลทั้งหมดเกิดขึ้นบนเบราว์เซอร์ของคุณ</p>
+                    <p class="text-gray-600 text-sm sm:text-base pl-7 leading-relaxed" id="faq-answer-1">การถอดรหัส URL นั้นปลอดภัย เนื่องจากเราไม่มีการบันทึกหรือเก็บข้อมูล URL ของคุณไว้ในเซิร์ฟเวอร์ใดๆ ทั้งสิ้น การประมวลผลทั้งหมดเกิดขึ้นบนเบราว์เซอร์ของคุณ</p>
                 </div>
-                <div class="p-6 border-b border-gray-100 hover:bg-gray-50 transition-colors duration-200">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-2 flex items-center">
-                        <i class="fas fa-question-circle text-blue-500 mr-2"></i>
+                <div class="p-6 sm:p-8 hover:bg-gray-50/50 transition-colors">
+                    <h3 class="text-base sm:text-lg font-bold text-gray-800 mb-2 flex items-center">
+                        <svg class="w-5 h-5 text-blue-500 mr-2.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
                         <span id="faq-question-2">ทำไมบางลิงก์ถึงไม่แสดงผลพรีวิว?</span>
                     </h3>
-                    <p class="text-gray-700 pl-7" id="faq-answer-2">บางเว็บไซต์มีนโยบายป้องกันการแสดงผลใน iframe (X-Frame-Options) ซึ่งทำให้ไม่สามารถแสดงพรีวิวได้ ในกรณีนี้คุณสามารถใช้ปุ่ม "เปิดในแท็บใหม่" เพื่อดูเนื้อหาของเว็บไซต์ได้</p>
+                    <p class="text-gray-600 text-sm sm:text-base pl-7 leading-relaxed" id="faq-answer-2">บางเว็บไซต์มีนโยบายป้องกันการแสดงผลใน iframe (X-Frame-Options) ซึ่งทำให้ไม่สามารถแสดงพรีวิวได้ ในกรณีนี้คุณสามารถใช้ปุ่ม "เปิดในแท็บใหม่" เพื่อดูเนื้อหาของเว็บไซต์ได้</p>
                 </div>
-                <div class="p-6 hover:bg-gray-50 transition-colors duration-200">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-2 flex items-center">
-                        <i class="fas fa-question-circle text-blue-500 mr-2"></i>
+                <div class="p-6 sm:p-8 hover:bg-gray-50/50 transition-colors">
+                    <h3 class="text-base sm:text-lg font-bold text-gray-800 mb-2 flex items-center">
+                        <svg class="w-5 h-5 text-blue-500 mr-2.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
                         <span id="faq-question-3">เครื่องมือนี้รองรับ URL ประเภทใดบ้าง?</span>
                     </h3>
-                    <p class="text-gray-700 pl-7" id="faq-answer-3">เครื่องมือของเราสามารถถอดรหัส URL ได้ทุกประเภท ทั้ง HTTP, HTTPS และโปรโตคอลอื่นๆ รวมถึงรองรับอักขระทุกภาษา</p>
+                    <p class="text-gray-600 text-sm sm:text-base pl-7 leading-relaxed" id="faq-answer-3">เครื่องมือของเราสามารถถอดรหัส URL ได้ทุกประเภท ทั้ง HTTP, HTTPS และโปรโตคอลอื่นๆ รวมถึงรองรับอักขระทุกภาษา</p>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer class="bg-gray-800 text-white py-8">
-        <div class="container mx-auto px-4 text-center">
-            <p id="footer-text">© <script>document.write(new Date().getFullYear()) </script> LinkLift</p>
-            <p class="mt-2 text-gray-400" id="footer-built">Made By Shoper Team</p>
+    <footer class="bg-slate-900 text-white py-10 mt-16 border-t border-slate-800">
+        <div class="max-w-7xl 2xl:max-w-screen-2xl mx-auto px-4 text-center">
+            <p class="font-medium text-slate-300" id="footer-text">© <script>document.write(new Date().getFullYear())</script> LinkLift</p>
+            <p class="mt-2 text-sm text-slate-500" id="footer-built">Made By Shoper Team</p>
         </div>
     </footer>
     <script type="module" src="src/app.js"></script>
