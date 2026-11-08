@@ -1,8 +1,9 @@
 
+
 # LinkLift 🌐
 
 <p align="center">
-  <img src="logo.png" alt="LinkLift Logo" width="100" height="100">
+  <img src="https://raw.githubusercontent.com/ShoperGamer/-LinkLift/main/decode/logo.png" alt="LinkLift Logo" width="100" height="100">
 </p>
 
 <p align="center">
@@ -10,13 +11,13 @@
   เครื่องมือถอดรหัส URL ภาษาไทย และชุดเครื่องมือจัดการข้อความอัจฉริยะ ทำงานแบบ Client-side 100%
 </p>
 
-<p >
+<p align="center">
   <a href="https://github.com/ShoperGamer/-LinkLift"><img src="https://img.shields.io/github/repo-size/ShoperGamer/-LinkLift?style=for-the-badge&color=blue" alt="Repo Size"></a>
   <a href="https://github.com/ShoperGamer/-LinkLift/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-emerald?style=for-the-badge" alt="License"></a>
   <a href="https://github.com/ShoperGamer/-LinkLift/commits/main"><img src="https://img.shields.io/github/last-commit/ShoperGamer/-LinkLift?style=for-the-badge&color=orange" alt="Last Commit"></a>
 </p>
 
-<p ">
+<p align="center">
   <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="HTML5">
   <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS">
   <img src="https://img.shields.io/badge/JavaScript_ES6+-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript">
@@ -25,20 +26,6 @@
 
 ---
 
-## 📑 สารบัญ (Table of Contents)
-- [🇹🇭 เอกสารภาษาไทย](#-linklift-ภาษาไทย)
-  - [ภาพรวมเครื่องมือ](#-ภาพรวมชุดเครื่องมือ)
-  - [คุณสมบัติเด่น](#-คุณสมบัติเด่น)
-  - [วิธีการใช้งาน](#-วิธีการใช้งาน)
-  - [โครงสร้างโปรเจกต์](#-โครงสร้างโปรเจกต์)
-- [🇺🇸 English Documentation](#-linklift-english)
-  - [Features](#-features)
-  - [Quick Start](#-quick-start)
-  - [Project Architecture](#-project-architecture)
-- [🛠️ Tech Stack](#️-tech-stack)
-- [📄 License & Authors](#-license)
-
----
 
 # 🇹🇭 LinkLift (ภาษาไทย)
 
@@ -72,10 +59,14 @@
 ### 1. การถอดรหัส URL
 1. เปิดหน้า `index.html`
 2. วางลิงก์ที่ต้องการถอดรหัสลงในช่องค้นหา เช่น:
-   ```text
-[https://medium.com/@gakungza123/%E0%B8%82%E0%B9%89%E0%B8%AD%E0%B8%A1%E0%B8%B9%E0%B8%A5%E0%B8%95%E0%B9%88%E0%B8%B2%E0%B8%87%E0%B8%88%E0%B8%B2%E0%B8%81%E0%B8%AA%E0%B8%B2%E0%B8%A3%E0%B8%AA%E0%B8%99%E0%B9%80%E0%B8%97%E0%B8%A8%E0%B8%AD%E0%B8%A2%E0%B9%88%E0%B8%B2%E0%B8%87%E0%B9%84%E0%B8%A3-44d1fed3b828](https://medium.com/@gakungza123/%E0%B8%82%E0%B9%89%E0%B8%AD%E0%B8%A1%E0%B8%B9%E0%B8%A5%E0%B8%95%E0%B9%88%E0%B8%B2%E0%B8%87%E0%B8%88%E0%B8%B2%E0%B8%81%E0%B8%AA%E0%B8%B2%E0%B8%A3%E0%B8%AA%E0%B8%99%E0%B9%80%E0%B8%97%E0%B8%A8%E0%B8%AD%E0%B8%A2%E0%B9%88%E0%B8%B2%E0%B8%87%E0%B9%84%E0%B8%A3-44d1fed3b828)
 
+
+    
+```text
+[https://medium.com/@gakungza123/%E0%B8%82%E0%B9%89%E0%B8%AD%E0%B8%A1%E0%B8%B9%E0%B8%A5%E0%B8%95%E0%B9%88%E0%B8%B2%E0%B8%87%E0%B8%88%E0%B8%B2%E0%B8%81%E0%B8%AA%E0%B8%B2%E0%B8%A3%E0%B8%AA%E0%B8%99%E0%B9%80%E0%B8%97%E0%B8%A8%E0%B8%AD%E0%B8%A2%E0%B9%88%E0%B8%B2%E0%B8%87%E0%B9%84%E0%B8%A3-44d1fed3b828](https://medium.com/@gakungza123/%E0%B8%82%E0%B9%89%E0%B8%AD%E0%B8%A1%E0%B8%B9%E0%B8%A5%E0%B8%95%E0%B9%88%E0%B8%B2%E0%B8%87%E0%B8%88%E0%B8%B2%E0%B8%81%E0%B8%AA%E0%B8%B2%E0%B8%A3%E0%B8%AA%E0%B8%99%E0%B9%80%E0%B8%97%E0%B8%A8%E0%B8%AD%E0%B8%A2%E0%B9%88%E0%B8%B2%E0%B8%87%E0%B9%84%E0%B8%A3-44d1fed3b828)
 ```
+ 
+
 
 3. กดปุ่ม **"ถอดรหัส"** (หรือกด Enter)
 4. คัดลอก URL ฉบับอ่านง่าย หรือดูหน้าตัวอย่างเว็บไซต์ผ่านกล่อง Preview
@@ -166,5 +157,5 @@ This project is licensed under the **MIT License** - see the [LICENSE](https://w
 
 Crafted with care by **Shoper Team**
 
-Maintained by ** @ShoperGamer, @Charifkub, @Animexo **
+Maintained by **@ShoperGamer, @Charifkub, @Animexo**
 
