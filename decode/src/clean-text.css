@@ -1,0 +1,32 @@
+.gradient-text-green {
+    background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Diff View */
+.diff-added {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+.diff-removed {
+    background-color: #fee2e2;
+    color: #991b1b;
+    text-decoration: line-through;
+}
+
+/* Custom checkbox styling */
+input[type="checkbox"] {
+    cursor: pointer;
+}
+
+input[type="checkbox"]:checked {
+    background-color: #059669;
+    border-color: #059669;
+}
+
+input[type="checkbox"]:focus {
+    outline: 2px solid #a7f3d0;
+    outline-offset: 2px;
+}

@@ -1,3 +1,5 @@
+import './sw-register.js';
+
 const currentYear = new Date().getFullYear();
 
 // Register Service Worker for Offline capability
@@ -226,27 +228,6 @@ document.addEventListener('DOMContentLoaded', function() {
         closeLanguageMenu.addEventListener('click', () => {
             mobileLanguageMenu.classList.add('hidden');
         });
-    }
-
-    // Offline / Online Monitor
-    function showConnectionStatus(isOnline) {
-        const currentLang = localStorage.getItem('preferredLanguage') || 'th';
-        if (!isOnline) {
-            connectionStatus.className = "fixed bottom-4 right-4 z-50 px-4 py-2.5 rounded-2xl shadow-xl text-sm font-semibold bg-amber-500 text-white flex items-center gap-2 fade-in";
-            connectionStatus.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18.364 5.636a9 9 0 010 12.728m0 0l-2.829-2.829m2.829 2.829L21 21M15.536 8.464a5 5 0 010 7.072m0 0l-2.829-2.829m-4.243 4.243a9 9 0 01-5.657-2.828m0 0l2.828-2.829m-2.828 2.829L3 21M8.464 15.536a5 5 0 01-2.828-4.243m0 0l2.828-2.829M12 3v3m0 12v3"></path></svg> ${languageData[currentLang]["offline-alert"]}`;
-            connectionStatus.classList.remove('hidden');
-        } else {
-            connectionStatus.className = "fixed bottom-4 right-4 z-50 px-4 py-2.5 rounded-2xl shadow-xl text-sm font-semibold bg-emerald-600 text-white flex items-center gap-2 fade-in";
-            connectionStatus.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg> ${languageData[currentLang]["online-alert"]}`;
-            setTimeout(() => connectionStatus.classList.add('hidden'), 3000);
-        }
-    }
-
-    window.addEventListener('offline', () => showConnectionStatus(false));
-    window.addEventListener('online', () => showConnectionStatus(true));
-
-    if (!navigator.onLine) {
-        showConnectionStatus(false);
     }
 
     // Initial Language Setup & Check

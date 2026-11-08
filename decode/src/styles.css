@@ -1,7 +1,6 @@
 @import "tailwindcss";
 
 /* --- IBM Plex Sans Thai Local Fonts --- */
-
 @font-face {
     font-family: 'IBM Plex Sans Thai';
     src: url('fonts/IBMPlexSansThai-Regular.ttf') format('truetype');
@@ -22,40 +21,23 @@
     font-family: 'IBM Plex Sans Thai', sans-serif;
 }
 
+/* --- Animations --- */
 .fade-in {
     animation: fadeIn 0.6s ease-in-out;
 }
 
 @keyframes fadeIn {
-    from { 
-        opacity: 0; 
-        transform: translateY(10px); 
-    }
-    to { 
-        opacity: 1; 
-        transform: translateY(0); 
-    }
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-html {
-    scroll-behavior: smooth;
-}
+/* --- Custom Scrollbar --- */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #f1f1f1; }
+::-webkit-scrollbar-thumb { background: #c5c5c5; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #a8a8a8; }
 
-/* Custom scrollbar */
-::-webkit-scrollbar { 
-    width: 8px; 
-}
-::-webkit-scrollbar-track { 
-    background: #f1f1f1; 
-}
-::-webkit-scrollbar-thumb { 
-    background: #c5c5c5; 
-    border-radius: 4px; 
-}
-::-webkit-scrollbar-thumb:hover { 
-    background: #a8a8a8; 
-}
-
+/* --- Buttons --- */
 .btn-animate {
     transition: all 0.3s ease;
 }
@@ -64,9 +46,34 @@ html {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
+/* --- Gradient Text --- */
 .gradient-text {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+}
+
+/* --- Tool Card Nav --- */
+.tool-card {
+    transition: all 0.3s ease;
+}
+.tool-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(99, 102, 241, 0.15);
+}
+
+/* --- Toast Notification --- */
+.toast {
+    animation: slideInRight 0.4s ease, fadeOut 0.4s ease 2.6s forwards;
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; transform: translateX(100%); }
 }
