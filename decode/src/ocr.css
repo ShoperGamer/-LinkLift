@@ -1,0 +1,24 @@
+/* Custom styling for Client-Side OCR Subpage */
+.drop-zone.drag-over {
+  border-color: #06b6d4;
+  background-color: rgba(6, 182, 212, 0.08);
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.15);
+}
+
+.ocr-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.ocr-scrollbar::-webkit-scrollbar-track {
+  background: #050505;
+}
+
+.ocr-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.25);
+  border-radius: 9999px;
+}
+
+.ocr-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(6, 182, 212, 0.5);
+}

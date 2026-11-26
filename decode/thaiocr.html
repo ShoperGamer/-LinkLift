@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="th" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ThaiOCR</title>
+  <meta name="description" content="ถอดข้อความภาษาไทยและอังกฤษจากรูปภาพและไฟล์ PDF หลายร้อยหน้าแบบ Client-Side 100% บนเบราว์เซอร์ ด้วย OpenThai2.1 ONNX และ Web Worker" />
+  <link rel="icon" type="image/png" href="./logo.png" />
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="stylesheet" href="./src/styles.css" />
+  <link rel="stylesheet" href="./src/ocr.css" />
+</head>
+<body class="bg-[#050505] text-slate-100 min-h-screen flex flex-col antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
+
+  <!-- Top Navigation (เชื่อมต่อกับหน้าอื่นใน -LinkLift) -->
+  <header class="sticky top-0 z-40 border-b border-white/10 bg-[#050505]/90 backdrop-blur-md">
+    <div class="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between gap-4">
+      <a href="./index.html" class="flex items-center gap-2.5 text-slate-100 hover:text-cyan-400 transition-colors">
+        <img src="./logo.png" alt="LinkLift" class="w-7 h-7 rounded-lg object-cover border border-white/10" />
+        <span class="font-bold tracking-tight text-base">LinkLift <span class="text-cyan-400 font-mono text-xs px-1.5 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/20">ThaiOCR</span></span>
+      </a>
+
+      <nav class="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm">
+        <a href="https://swiftqr.pages.dev" class="px-2.5 py-1.5 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-white/5 transition-colors">SwiftQR</a>
+        <a href="./clean-text.html" class="px-2.5 py-1.5 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-white/5 transition-colors">Clean Text</a>
+        <a href="./markdown.html" class="px-2.5 py-1.5 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-white/5 transition-colors">Markdown</a>
+        <a href="./thaiocr.html" class="px-2.5 py-1.5 rounded-lg bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 font-medium">ThaiOCR</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-6xl w-full mx-auto px-4 py-6 sm:py-8 space-y-6">
+
+    <!-- Header & Runtime Status Badges -->
+    <section class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-5">
+      <div>
+        <h1 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2.5">
+          <svg class="w-6 h-6 text-cyan-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 7V4h3M20 7V4h-3M4 17v3h3M20 17v3h-3M7 12h10M9 8h6M9 16h6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          ThaiOCR
+        </h1>
+        <p class="text-sm text-slate-400 mt-1">
+          ประมวลผลภาพและ PDF หลายร้อยหน้าในเครื่อง 100% ไม่อัปโหลดไฟล์ขึ้นเซิร์ฟเวอร์ โหลดโมเดลในโปรเจกต์และแคชไว้ใช้งานออฟไลน์
+        </p>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2 text-xs font-mono">
+        <span id="badge-device" class="px-2.5 py-1 rounded-md bg-slate-900 border border-white/10 text-slate-300">
+          Device: ตรวจสอบ...
+        </span>
+        <span id="badge-cache" class="px-2.5 py-1 rounded-md bg-slate-900 border border-white/10 text-slate-300">
+          Cache: รอโหลดโมเดล
+        </span>
+      </div>
+    </section>
+
+    <!-- Section 1: Local / Hugging Face Model Loader & Cache Control -->
+    <section class="rounded-xl bg-slate-950/90 border border-white/10 p-4 sm:p-5 space-y-4">
+      <div class="flex flex-col lg:flex-row lg:items-end gap-3">
+        <div class="flex-1 space-y-1.5">
+          <label for="hf-model-id" class="block text-xs font-medium text-slate-300">
+            แหล่งโมเดล OCR (ค่าเริ่มต้นใช้ไฟล์ในโฟลเดอร์ <code class="text-cyan-400">./models/</code> หรือใส่ Hugging Face Repo ID)
+          </label>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <input
+              id="hf-model-id"
+              type="text"
+              value="./models/"
+              placeholder="เช่น ./models/ หรือ iapp/OpenThai2.1-OCR-Text-20261118"
+              class="flex-1 rounded-lg bg-[#050505] border border-white/15 px-3 py-2 text-sm font-mono text-cyan-300 focus:outline-none focus:border-cyan-500"
+            />
+            <select
+              id="hf-preset-select"
+              aria-label="เลือกแหล่งโมเดล"
+              class="rounded-lg bg-[#050505] border border-white/15 px-3 py-2 text-xs text-slate-300 focus:outline-none focus:border-cyan-500"
+            >
+              <option value="iapp/OpenThai2.1-OCR-Text-20261118">OpenThai2.1-OCR</option>
+              <option value="dojojin/hippocraft-thai-ocr-rec">Hippocraft-Thai-OCR</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <button
+            id="btn-load-model"
+            type="button"
+            class="px-4 py-2 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-semibold text-sm transition-colors flex items-center gap-2 cursor-pointer"
+          >
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            โหลดและแคชโมเดล
+          </button>
+
+          <button
+            id="btn-clear-cache"
+            type="button"
+            title="ลบไฟล์โมเดลที่แคชไว้ในเบราว์เซอร์"
+            class="px-3 py-2 rounded-lg bg-slate-900 hover:bg-rose-950/60 text-slate-300 hover:text-rose-300 border border-white/10 hover:border-rose-500/30 text-xs transition-colors cursor-pointer"
+          >
+            ล้าง Cache
+          </button>
+        </div>
+      </div>
+
+      <!-- Real-time Model Download / Cache Progress Bar -->
+      <div id="model-progress-box" class="hidden rounded-lg bg-[#050505] border border-white/10 p-3.5 space-y-2">
+        <div class="flex items-center justify-between text-xs gap-2">
+          <span id="model-status-text" class="text-cyan-300 font-medium truncate">กำลังเตรียมโหลดไฟล์โมเดล...</span>
+          <span id="model-percent-text" class="font-mono text-slate-300 shrink-0">0%</span>
+        </div>
+        <div class="w-full h-2 rounded-full bg-slate-900 overflow-hidden">
+          <div id="model-progress-bar" class="h-full bg-gradient-to-r from-cyan-500 to-emerald-400 transition-all duration-150" style="width: 0%"></div>
+        </div>
+        <div class="flex items-center justify-between text-[11px] font-mono text-slate-400">
+          <span id="model-file-name" class="truncate">รอไฟล์ det.onnx, rec.onnx, rec2.onnx, rec_dict.txt...</span>
+          <span id="model-bytes-text" class="shrink-0">0.0 MB / 0.0 MB</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: File Dropzone & Pipeline Options -->
+    <section class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+      <!-- Left: Dropzone & Settings -->
+      <div class="lg:col-span-1 space-y-4">
+        <div
+          id="drop-zone"
+          tabindex="0"
+          role="button"
+          class="drop-zone rounded-xl border-2 border-dashed border-white/15 hover:border-cyan-500/60 bg-slate-950/70 p-6 text-center cursor-pointer transition-all flex flex-col items-center justify-center min-h-[210px]"
+        >
+          <input id="file-input" type="file" accept="image/*,.pdf,application/pdf" multiple class="hidden" />
+          <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 mb-3">
+            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke-linecap="round" stroke-linejoin="round"/>
+              <polyline points="14 2 14 8 20 8" stroke-linecap="round" stroke-linejoin="round"/>
+              <line x1="12" y1="18" x2="12" y2="12" stroke-linecap="round"/>
+              <polyline points="9 15 12 12 15 15" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <p class="text-sm font-semibold text-white">ลากไฟล์มาวาง หรือคลิกเพื่อเลือกไฟล์</p>
+          <p class="text-xs text-slate-400 mt-1">รองรับ PDF และรูปภาพ PNG, JPG, WEBP</p>
+          <p id="selected-file-label" class="text-xs font-mono text-cyan-400 mt-3 truncate max-w-full"></p>
+        </div>
+
+        <!-- Pipeline Controls -->
+        <div class="rounded-xl bg-slate-950/90 border border-white/10 p-4 space-y-3 text-xs">
+          <div class="font-semibold text-slate-200 uppercase tracking-wider text-[11px]">ตั้งค่าการประมวลผล</div>
+
+          <div class="space-y-1.5">
+            <div class="flex justify-between text-slate-400">
+              <label for="opt-pdf-scale">ความละเอียด Render PDF (Scale)</label>
+              <span id="opt-pdf-scale-val" class="font-mono text-cyan-400">2.75x</span>
+            </div>
+            <input id="opt-pdf-scale" type="range" min="1.5" max="3.0" step="0.25" value="2.75" class="w-full accent-cyan-500" />
+            <p class="text-[11px] text-slate-500">
+              ค่าเริ่มต้น 2.75x (~200 DPI) ให้ความแม่นยำใกล้เคียงเวอร์ชัน Python สูงสุด ลดลงได้หากต้องการให้ไวขึ้น
+            </p>
+          </div>
+
+          <div class="pt-2 flex gap-2">
+            <button
+              id="btn-start-ocr"
+              type="button"
+              disabled
+              class="flex-1 py-2.5 px-4 rounded-lg bg-emerald-500 hover:bg-emerald-400 disabled:bg-slate-800 disabled:text-slate-500 text-slate-950 font-semibold text-sm transition-colors cursor-pointer disabled:cursor-not-allowed"
+            >
+              เริ่มถอดข้อความ
+            </button>
+            <button
+              id="btn-cancel-ocr"
+              type="button"
+              class="hidden py-2.5 px-3.5 rounded-lg bg-rose-600 hover:bg-rose-500 text-white font-semibold text-sm transition-colors cursor-pointer"
+            >
+              หยุด
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Real-Time Processing Bar & Output Viewer -->
+      <div class="lg:col-span-2 flex flex-col space-y-4">
+
+        <!-- Real-Time OCR Processing Progress Card -->
+        <div class="rounded-xl bg-slate-950/90 border border-white/10 p-4 space-y-3">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <span id="ocr-spinner" class="hidden w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping"></span>
+              <span id="ocr-phase-label" class="text-sm font-semibold text-white">พร้อมทำงาน</span>
+            </div>
+            <div class="flex items-center gap-3 text-xs font-mono">
+              <span id="ocr-counter-label" class="text-slate-400">0 / 0 หน้า</span>
+              <span id="ocr-percent-label" class="text-cyan-400 font-bold text-sm">0.0%</span>
+            </div>
+          </div>
+
+          <!-- Progress Track -->
+          <div class="w-full h-3 rounded-full bg-[#050505] border border-white/10 overflow-hidden p-0.5">
+            <div
+              id="ocr-progress-bar"
+              class="h-full rounded-full bg-gradient-to-r from-cyan-500 via-sky-400 to-emerald-400 transition-all duration-150"
+              style="width: 0%"
+            ></div>
+          </div>
+
+          <!-- Live Telemetry Metrics -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 text-[11px] font-mono">
+            <div class="rounded-lg bg-[#050505] border border-white/5 px-2.5 py-1.5">
+              <span class="text-slate-500 block">ใช้เวลาไปแล้ว</span>
+              <span id="stat-elapsed" class="text-slate-200">00:00</span>
+            </div>
+            <div class="rounded-lg bg-[#050505] border border-white/5 px-2.5 py-1.5">
+              <span class="text-slate-500 block">เวลาที่เหลือ (ETA)</span>
+              <span id="stat-eta" class="text-slate-200">--:--</span>
+            </div>
+            <div class="rounded-lg bg-[#050505] border border-white/5 px-2.5 py-1.5">
+              <span class="text-slate-500 block">ความเร็วเฉลี่ย</span>
+              <span id="stat-speed" class="text-slate-200">- วิ/หน้า</span>
+            </div>
+            <div class="rounded-lg bg-[#050505] border border-white/5 px-2.5 py-1.5">
+              <span class="text-slate-500 block">เวลาหน้าล่าสุด</span>
+              <span id="stat-last-page" class="text-emerald-400">- วิ</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Output Toolbar & Text Result -->
+        <div class="flex-1 rounded-xl bg-slate-950/90 border border-white/10 flex flex-col overflow-hidden min-h-[360px]">
+          <div class="px-4 py-2.5 border-b border-white/10 flex flex-wrap items-center justify-between gap-2 bg-[#08080c]">
+            <div class="flex items-center gap-2 text-xs">
+              <span class="font-semibold text-slate-200">ผลลัพธ์ข้อความ</span>
+              <span id="output-info-badge" class="font-mono text-[11px] text-slate-400">(บันทึกอัตโนมัติใน IndexedDB)</span>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-1.5 text-xs">
+              <button id="btn-copy-all" type="button" class="px-2.5 py-1.5 rounded-md bg-white/5 hover:bg-white/10 text-slate-200 border border-white/10 transition-colors cursor-pointer">
+                คัดลอกทั้งหมด
+              </button>
+              <button id="btn-download-txt" type="button" class="px-2.5 py-1.5 rounded-md bg-white/5 hover:bg-white/10 text-slate-200 border border-white/10 transition-colors cursor-pointer">
+                โหลด .TXT
+              </button>
+              <button id="btn-download-md" type="button" class="px-2.5 py-1.5 rounded-md bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 transition-colors cursor-pointer">
+                โหลด .MD
+              </button>
+              <button id="btn-clear-output" type="button" class="px-2.5 py-1.5 rounded-md bg-white/5 hover:bg-rose-500/20 text-slate-400 hover:text-rose-300 border border-white/10 transition-colors cursor-pointer">
+                ล้างผลลัพธ์
+              </button>
+            </div>
+          </div>
+
+          <textarea
+            id="ocr-output-text"
+            readonly
+            placeholder="ผลลัพธ์จากการถอดข้อความจะปรากฏที่นี่แบบเรียลไทม์ทีละหน้า..."
+            class="flex-1 w-full bg-[#050505] p-4 text-sm leading-relaxed text-slate-200 font-sans resize-none focus:outline-none ocr-scrollbar"
+          ></textarea>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="./src/sw-register.js"></script>
+  <script type="module" src="./src/ocr.ts"></script>
+</body>
+</html>

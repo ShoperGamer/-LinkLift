@@ -2,11 +2,14 @@
    TextTools Service Worker
    - Offline shell: precache หน้า HTML หลักทันทีตอน install
    - Hashed assets (/assets/*): cache-first (ชื่อไฟล์มี hash = immutable)
+     รวมถึง bundle ของ OCR Web Worker, PDF.js Worker และไฟล์ WASM
+   - Hugging Face Hub (cross-origin): ปล่อยผ่านให้ @huggingface/transformers
+     จัดการแคชโมเดลลง 'transformers-cache' โดยตรง
    - อื่น ๆ: network-first + fallback cache
    - มี offline fallback ไม่จอขาว
    ⚠️ เปลี่ยน CACHE_NAME ทุกครั้งที่ release เพื่อล้างแคชเก่า
    ===================================================== */
-const CACHE_NAME = 'texttools-v1-2026-11-08';
+const CACHE_NAME = 'texttools-v2-2026-11-26';
 
 // ไฟล์ที่ไม่มี hash ใน dist root -> precache ได้เลย
 const CORE_ASSETS = [
@@ -14,6 +17,7 @@ const CORE_ASSETS = [
     './index.html',
     './markdown.html',
     './clean-text.html',
+    './thaiocr.html',
     './manifest.json',
     './logo.png'
 ];
@@ -31,7 +35,10 @@ self.addEventListener('activate', (event) => {
         caches.keys()
             .then((keys) => Promise.all(
                 keys.map((key) => {
-                    if (key !== CACHE_NAME) return caches.delete(key);
+                    // ลบเฉพาะแคชเวอร์ชันเก่าของแอป แต่เก็บ 'transformers-cache' ของโมเดล OCR ไว้
+                    if (key !== CACHE_NAME && !key.includes('transformers')) {
+                        return caches.delete(key);
+                    }
                 })
             ))
             .then(() => self.clients.claim())
@@ -43,7 +50,7 @@ self.addEventListener('fetch', (event) => {
     if (req.method !== 'GET') return;
 
     const url = new URL(req.url);
-    // ข้าม cross-origin ทั้งหมด (กันแคช opaque response)
+    // ข้าม cross-origin ทั้งหมด (กันแคช opaque response และปล่อยให้ Hugging Face Hub แคชผ่าน Worker)
     if (url.origin !== self.location.origin) return;
 
     /* ---- 1) Navigation (หน้า HTML): network-first -> cache -> shell ---- */
@@ -65,7 +72,7 @@ self.addEventListener('fetch', (event) => {
     }
 
     /* ---- 2) Hashed build assets: cache-first (immutable ตาม hash) ----
-       รวมถึง JS/CSS bundle + ฟอนต์ KaTeX + ฟอนต์ IBM Plex ที่ Vite ออกให้ */
+       รวมถึง JS/CSS bundle + OCR Worker + PDF.js Worker + WASM + ฟอนต์ IBM Plex ที่ Vite ออกให้ */
     if (url.pathname.includes('/assets/')) {
         event.respondWith(
             caches.match(req).then((hit) => {
