@@ -1,33 +1,25 @@
-import { defineConfig } from 'vite'
-import tailwindcss from '@tailwindcss/vite'
-import { resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
-import fs from 'node:fs'
+import { defineConfig } from 'vite';
+import tailwindcss from '@tailwindcss/vite';
+import type { Plugin } from 'vite';
 
-const rootDir = fileURLToPath(new URL('.', import.meta.url))
-
-function copyOrtWasmPlugin() {
+function excludeWasmFromDistPlugin(): Plugin {
   return {
-    name: 'copy-ort-wasm',
-    buildStart() {
-      const srcDir = resolve(rootDir, 'node_modules/onnxruntime-web/dist')
-      const destDir = resolve(rootDir, 'public/ort')
-      if (!fs.existsSync(srcDir)) return
-
-      fs.mkdirSync(destDir, { recursive: true })
-      for (const file of fs.readdirSync(srcDir)) {
-        if (file.startsWith('ort-wasm') && (file.endsWith('.wasm') || file.endsWith('.mjs'))) {
-          fs.copyFileSync(resolve(srcDir, file), resolve(destDir, file))
+    name: 'exclude-wasm-from-dist',
+    enforce: 'post',
+    generateBundle(_options, bundle) {
+      for (const fileName of Object.keys(bundle)) {
+        if (fileName.endsWith('.wasm')) {
+          delete bundle[fileName];
         }
       }
     },
-  }
+  };
 }
 
 export default defineConfig({
   plugins: [
     tailwindcss(),
-    copyOrtWasmPlugin(),
+    excludeWasmFromDistPlugin(),
   ],
   worker: {
     format: 'es',
@@ -42,4 +34,4 @@ export default defineConfig({
       },
     },
   },
-})
+});

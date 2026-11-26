@@ -15,7 +15,7 @@
     <!-- Header -->
     <header class="bg-white/80 backdrop-blur-lg border-b border-gray-100 shadow-sm sticky top-0 z-30">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5">
-            <div class="flex flex-wrap justify-between items-center gap-3">
+            <div class="flex justify-between items-center gap-3">
                 <a href="index.html" class="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-emerald-600 via-teal-600 to-blue-600 bg-clip-text text-transparent flex items-center gap-2.5 flex-shrink-0">
                     <svg class="w-7 h-7 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
@@ -23,17 +23,76 @@
                     <span class="tracking-tight">TextTools</span>
                 </a>
 
-                <nav class="flex flex-wrap items-center gap-1 sm:gap-1.5 text-xs sm:text-sm font-medium" aria-label="เมนูหลัก">
-                    <a href="https://slicepix.pages.dev/" class="px-3 py-1.5 sm:py-2 rounded-xl text-gray-600 hover:text-blue-600 hover:bg-blue-50/80 transition whitespace-nowrap">SlicePix </a>
-                    <a href="markdown.html" class="px-3 py-1.5 sm:py-2 rounded-xl text-gray-600 hover:text-purple-600 hover:bg-purple-50/80 transition whitespace-nowrap">Markdown</a>
-                    <a href="clean-text.html" class="px-3 py-1.5 sm:py-2 rounded-xl bg-emerald-100 text-emerald-700 font-semibold border border-emerald-200/80 transition whitespace-nowrap" aria-current="page">Clean Text</a>
-                    <a href="thaiocr.html" class="px-3 py-1.5 sm:py-2 rounded-xl text-cyan-700 bg-cyan-50/80 hover:bg-cyan-100/80 border border-cyan-200/70 font-semibold transition whitespace-nowrap inline-flex items-center gap-1.5">
-                        <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-cyan-600" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex items-center gap-1.5 text-sm font-medium" aria-label="เมนูหลัก">
+                    <a href="https://slicepix.pages.dev/" class="px-3 py-2 rounded-xl text-gray-600 hover:text-blue-600 hover:bg-blue-50/80 transition whitespace-nowrap">SlicePix</a>
+                    <a href="markdown.html" class="px-3 py-2 rounded-xl text-gray-600 hover:text-purple-600 hover:bg-purple-50/80 transition whitespace-nowrap">Markdown</a>
+                    <a href="clean-text.html" class="px-3 py-2 rounded-xl bg-emerald-100 text-emerald-700 font-semibold border border-emerald-200/80 transition whitespace-nowrap" aria-current="page">Clean Text</a>
+                    <a href="thaiocr.html" class="px-3 py-2 rounded-xl text-cyan-700 bg-cyan-50/80 hover:bg-cyan-100/80 border border-cyan-200/70 font-semibold transition whitespace-nowrap inline-flex items-center gap-1.5">
+                        <svg class="w-4 h-4 text-cyan-600" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M4 7V4h3M20 7V4h-3M4 17v3h3M20 17v3h-3M7 12h10M9 8h6M9 16h6"></path>
                         </svg>AI OCR
                     </a>
+
+                    <button
+                        type="button"
+                        data-lang-toggle
+                        aria-label="Switch Language"
+                        title="Switch to English / เปลี่ยนเป็นภาษาไทย"
+                        class="ml-1 px-3 py-2 rounded-xl bg-gray-100 hover:bg-emerald-100 text-gray-700 hover:text-emerald-700 border border-gray-200/80 font-semibold text-xs transition inline-flex items-center gap-1.5 cursor-pointer"
+                    >
+                        <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"></path>
+                        </svg>
+                        <span data-lang-badge>EN</span>
+                    </button>
                 </nav>
+
+                <!-- Mobile Controls: Language Toggle + 3-Bar Hamburger Button -->
+                <div class="flex items-center gap-2 md:hidden">
+                    <button
+                        type="button"
+                        data-lang-toggle
+                        aria-label="Switch Language"
+                        class="px-2.5 py-1.5 rounded-xl bg-gray-100 hover:bg-emerald-100 text-gray-700 hover:text-emerald-700 border border-gray-200 font-semibold text-xs transition inline-flex items-center gap-1 cursor-pointer"
+                    >
+                        <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"></path>
+                        </svg>
+                        <span data-lang-badge>EN</span>
+                    </button>
+
+                    <button
+                        type="button"
+                        id="mobileMenuBtn"
+                        aria-controls="mobileMenu"
+                        aria-expanded="false"
+                        aria-label="เปิดเมนูนำทาง"
+                        class="p-2 rounded-xl text-gray-700 hover:text-emerald-700 hover:bg-emerald-50 border border-gray-200/80 transition cursor-pointer"
+                    >
+                        <svg id="iconMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                        <svg id="iconMenuClose" class="w-6 h-6 hidden" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
             </div>
+
+            <!-- Mobile Collapsible Navigation Menu -->
+            <nav id="mobileMenu" class="hidden md:hidden mt-3 pt-3 border-t border-gray-100 flex-col gap-1.5 text-sm font-medium" aria-label="เมนูมือถือ">
+                <a href="https://slicepix.pages.dev/" class="px-3.5 py-2.5 rounded-xl text-gray-700 hover:text-blue-600 hover:bg-blue-50/80 transition">SlicePix</a>
+                <a href="markdown.html" class="px-3.5 py-2.5 rounded-xl text-gray-700 hover:text-purple-600 hover:bg-purple-50/80 transition">Markdown</a>
+                <a href="clean-text.html" class="px-3.5 py-2.5 rounded-xl bg-emerald-100 text-emerald-700 font-semibold border border-emerald-200/80 transition" aria-current="page">Clean Text</a>
+                <a href="thaiocr.html" class="px-3.5 py-2.5 rounded-xl text-cyan-700 bg-cyan-50/80 hover:bg-cyan-100/80 border border-cyan-200/70 font-semibold transition inline-flex items-center gap-2">
+                    <svg class="w-4 h-4 text-cyan-600" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 7V4h3M20 7V4h-3M4 17v3h3M20 17v3h-3M7 12h10M9 8h6M9 16h6"></path>
+                    </svg>AI OCR
+                </a>
+            </nav>
         </div>
     </header>
 
@@ -47,10 +106,10 @@
                     </svg>
                 </div>
             </div>
-            <h1 class="text-3xl sm:text-5xl font-extrabold text-gray-900 mb-4 tracking-tight">
+            <h1 class="text-3xl sm:text-5xl font-extrabold text-gray-900 mb-4 tracking-tight" data-i18n-html="heroTitle">
                 ทำความสะอาด <span class="gradient-text-green">ข้อความจาก AI</span>
             </h1>
-            <p class="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+            <p class="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed" data-i18n="heroDesc">
                 ลบช่องว่างส่วนเกิน, อักขระพิเศษ, emoji, ข้อความที่ซ้ำ และจัดรูปแบบข้อความจาก AI ให้สะอาดอ่านง่าย
             </p>
         </section>
@@ -61,11 +120,11 @@
                 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
                     <label class="flex items-center gap-2 cursor-pointer">
                         <input type="checkbox" id="optExtraSpaces" checked class="w-4 h-4 text-emerald-600 rounded focus:ring-emerald-500">
-                        <span class="text-sm text-gray-700">ช่องว่างส่วนเกิน</span>
+                        <span class="text-sm text-gray-700" data-i18n="optExtraSpaces">ช่องว่างส่วนเกิน</span>
                     </label>
                     <label class="flex items-center gap-2 cursor-pointer">
                         <input type="checkbox" id="optSpecialChars" class="w-4 h-4 text-emerald-600 rounded focus:ring-emerald-500">
-                        <span class="text-sm text-gray-700">อักขระพิเศษ <br> (ห้ามใช้กับภาษาไทย)</span>
+                        <span class="text-sm text-gray-700" data-i18n-html="optSpecialChars">อักขระพิเศษ <br> (ห้ามใช้กับภาษาไทย)</span>
                     </label>
                     <label class="flex items-center gap-2 cursor-pointer">
                         <input type="checkbox" id="optEmojis" class="w-4 h-4 text-emerald-600 rounded focus:ring-emerald-500">
@@ -73,39 +132,39 @@
                     </label>
                     <label class="flex items-center gap-2 cursor-pointer">
                         <input type="checkbox" id="optLineBreaks" checked class="w-4 h-4 text-emerald-600 rounded focus:ring-emerald-500">
-                        <span class="text-sm text-gray-700">บรรทัดว่าง</span>
+                        <span class="text-sm text-gray-700" data-i18n="optLineBreaks">บรรทัดว่าง</span>
                     </label>
                     <label class="flex items-center gap-2 cursor-pointer">
                         <input type="checkbox" id="optDuplicateWords" class="w-4 h-4 text-emerald-600 rounded focus:ring-emerald-500">
-                        <span class="text-sm text-gray-700">คำซ้ำ</span>
+                        <span class="text-sm text-gray-700" data-i18n="optDuplicateWords">คำซ้ำ</span>
                     </label>
                     <label class="flex items-center gap-2 cursor-pointer">
                         <input type="checkbox" id="optTrimEnds" checked class="w-4 h-4 text-emerald-600 rounded focus:ring-emerald-500">
-                        <span class="text-sm text-gray-700">ช่องว่างหัวท้าย</span>
+                        <span class="text-sm text-gray-700" data-i18n="optTrimEnds">ช่องว่างหัวท้าย</span>
                     </label>
                     <label class="flex items-center gap-2 cursor-pointer">
                         <input type="checkbox" id="optRemoveMarkdown" class="w-4 h-4 text-emerald-600 rounded focus:ring-emerald-500">
-                        <span class="text-sm text-gray-700">สัญลักษณ์ Markdown</span>
+                        <span class="text-sm text-gray-700" data-i18n="optRemoveMarkdown">สัญลักษณ์ Markdown</span>
                     </label>
                     <label class="flex items-center gap-2 cursor-pointer">
                         <input type="checkbox" id="optAIFiller" class="w-4 h-4 text-emerald-600 rounded focus:ring-emerald-500">
-                        <span class="text-sm text-gray-700">คำฟิลเลอร์ AI</span>
+                        <span class="text-sm text-gray-700" data-i18n="optAIFiller">คำฟิลเลอร์ AI</span>
                     </label>
                     <label class="flex items-center gap-2 cursor-pointer">
                         <input type="checkbox" id="optFixCaps" class="w-4 h-4 text-emerald-600 rounded focus:ring-emerald-500">
-                        <span class="text-sm text-gray-700">แก้ตัวพิมพ์</span>
+                        <span class="text-sm text-gray-700" data-i18n="optFixCaps">แก้ตัวพิมพ์</span>
                     </label>
                     <label class="flex items-center gap-2 cursor-pointer">
                         <input type="checkbox" id="optRemoveNumbers" class="w-4 h-4 text-emerald-600 rounded focus:ring-emerald-500">
-                        <span class="text-sm text-gray-700">เลขลำดับ</span>
+                        <span class="text-sm text-gray-700" data-i18n="optRemoveNumbers">เลขลำดับ</span>
                     </label>
                     <label class="flex items-center gap-2 cursor-pointer">
                         <input type="checkbox" id="optNormalize" checked class="w-4 h-4 text-emerald-600 rounded focus:ring-emerald-500">
-                        <span class="text-sm text-gray-700">บรรทัดใหม่สวย</span>
+                        <span class="text-sm text-gray-700" data-i18n="optNormalize">บรรทัดใหม่สวย</span>
                     </label>
                     <label class="flex items-center gap-2 cursor-pointer">
                         <input type="checkbox" id="optRemoveCodeBlocks" class="w-4 h-4 text-emerald-600 rounded focus:ring-emerald-500">
-                        <span class="text-sm text-gray-700">โค้ดบล็อก</span>
+                        <span class="text-sm text-gray-700" data-i18n="optRemoveCodeBlocks">โค้ดบล็อก</span>
                     </label>
                 </div>
             </div>
@@ -122,20 +181,20 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                             </svg>
                         </div>
-                        <h2 class="text-lg font-bold text-gray-800">ข้อความจาก AI</h2>
+                        <h2 class="text-lg font-bold text-gray-800" data-i18n="sourceTitle">ข้อความจาก AI</h2>
                     </div>
                     <div class="flex gap-2">
                         <button id="pasteBtn" class="px-3 py-1.5 text-xs font-medium text-gray-600 hover:text-emerald-600 bg-gray-100 hover:bg-emerald-50 rounded-lg transition flex items-center gap-1">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
-                            วาง
+                            <span data-i18n="pasteBtn">วาง</span>
                         </button>
                         <button id="clearInputBtn" class="px-3 py-1.5 text-xs font-medium text-gray-600 hover:text-red-600 bg-gray-100 hover:bg-red-50 rounded-lg transition flex items-center gap-1">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
-                            ล้าง
+                            <span data-i18n="clearBtn">ล้าง</span>
                         </button>
                     </div>
                 </div>
-                <textarea id="inputText" placeholder="วางข้อความจาก ChatGPT, Gemini, Claude หรือ AI อื่นๆ ที่นี่...&#10;&#10;ตัวอย่าง:&#10;```&#10;แน่นอนครับ! นี่คือคำตอบ...&#10;```" class="flex-grow w-full min-h-[300px] lg:min-h-[450px] p-4 bg-gray-50/50 border border-gray-200 rounded-2xl focus:bg-white focus:ring-4 focus:ring-emerald-100 focus:border-emerald-500 transition-all text-sm sm:text-base resize-none outline-none"></textarea>
+                <textarea id="inputText" data-i18n-placeholder="inputPlaceholder" placeholder="วางข้อความจาก ChatGPT, Gemini, Claude หรือ AI อื่นๆ ที่นี่...&#10;&#10;ตัวอย่าง:&#10;```&#10;แน่นอนครับ! นี่คือคำตอบ...&#10;```" class="flex-grow w-full min-h-[300px] lg:min-h-[450px] p-4 bg-gray-50/50 border border-gray-200 rounded-2xl focus:bg-white focus:ring-4 focus:ring-emerald-100 focus:border-emerald-500 transition-all text-sm sm:text-base resize-none outline-none"></textarea>
                 <div class="mt-3 flex items-center justify-between text-xs text-gray-500">
                     <span id="inputCharCount">0 ตัวอักษร</span>
                     <span id="inputWordCount">0 คำ</span>
@@ -151,12 +210,12 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                         </div>
-                        <h2 class="text-lg font-bold text-gray-800">ข้อความที่สะอาดแล้ว</h2>
+                        <h2 class="text-lg font-bold text-gray-800" data-i18n="outputTitle">ข้อความที่สะอาดแล้ว</h2>
                     </div>
                     <div class="flex gap-2">
                         <button id="copyBtn" class="px-3 py-1.5 text-xs font-medium text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition flex items-center gap-1 active:scale-95">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                            <span id="copyBtnText">คัดลอก</span>
+                            <span id="copyBtnText" data-i18n="copyBtn">คัดลอก</span>
                         </button>
                     </div>
                 </div>
@@ -173,19 +232,19 @@
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div class="bg-white p-5 rounded-2xl shadow-lg border border-gray-100 text-center">
                     <div class="text-3xl font-extrabold text-emerald-600" id="statRemoved">0</div>
-                    <div class="text-sm text-gray-600 mt-1">อักขระที่ลบ</div>
+                    <div class="text-sm text-gray-600 mt-1" data-i18n="statRemovedLabel">อักขระที่ลบ</div>
                 </div>
                 <div class="bg-white p-5 rounded-2xl shadow-lg border border-gray-100 text-center">
                     <div class="text-3xl font-extrabold text-blue-600" id="statRemaining">0</div>
-                    <div class="text-sm text-gray-600 mt-1">อักขระคงเหลือ</div>
+                    <div class="text-sm text-gray-600 mt-1" data-i18n="statRemainingLabel">อักขระคงเหลือ</div>
                 </div>
                 <div class="bg-white p-5 rounded-2xl shadow-lg border border-gray-100 text-center">
                     <div class="text-3xl font-extrabold text-purple-600" id="statLines">0</div>
-                    <div class="text-sm text-gray-600 mt-1">บรรทัด</div>
+                    <div class="text-sm text-gray-600 mt-1" data-i18n="statLinesLabel">บรรทัด</div>
                 </div>
                 <div class="bg-white p-5 rounded-2xl shadow-lg border border-gray-100 text-center">
                     <div class="text-3xl font-extrabold text-orange-600" id="statWords">0</div>
-                    <div class="text-sm text-gray-600 mt-1">คำ</div>
+                    <div class="text-sm text-gray-600 mt-1" data-i18n="statWordsLabel">คำ</div>
                 </div>
             </div>
         </section>
@@ -199,6 +258,164 @@
     </footer>
 
     <div id="toast" class="fixed bottom-4 right-4 z-50 hidden"></div>
+
+    <script>
+        (function () {
+            const I18N = {
+                th: {
+                    pageTitle: 'Clean Text',
+                    heroTitle: 'ทำความสะอาด <span class="gradient-text-green">ข้อความจาก AI</span>',
+                    heroDesc: 'ลบช่องว่างส่วนเกิน, อักขระพิเศษ, emoji, ข้อความที่ซ้ำ และจัดรูปแบบข้อความจาก AI ให้สะอาดอ่านง่าย',
+                    optExtraSpaces: 'ช่องว่างส่วนเกิน',
+                    optSpecialChars: 'อักขระพิเศษ <br> (ห้ามใช้กับภาษาไทย)',
+                    optLineBreaks: 'บรรทัดว่าง',
+                    optDuplicateWords: 'คำซ้ำ',
+                    optTrimEnds: 'ช่องว่างหัวท้าย',
+                    optRemoveMarkdown: 'สัญลักษณ์ Markdown',
+                    optAIFiller: 'คำฟิลเลอร์ AI',
+                    optFixCaps: 'แก้ตัวพิมพ์',
+                    optRemoveNumbers: 'เลขลำดับ',
+                    optNormalize: 'บรรทัดใหม่สวย',
+                    optRemoveCodeBlocks: 'โค้ดบล็อก',
+                    sourceTitle: 'ข้อความจาก AI',
+                    pasteBtn: 'วาง',
+                    clearBtn: 'ล้าง',
+                    inputPlaceholder: 'วางข้อความจาก ChatGPT, Gemini, Claude หรือ AI อื่นๆ ที่นี่...\n\nตัวอย่าง:\n```\nแน่นอนครับ! นี่คือคำตอบ...\n```',
+                    outputTitle: 'ข้อความที่สะอาดแล้ว',
+                    copyBtn: 'คัดลอก',
+                    statRemovedLabel: 'อักขระที่ลบ',
+                    statRemainingLabel: 'อักขระคงเหลือ',
+                    statLinesLabel: 'บรรทัด',
+                    statWordsLabel: 'คำ',
+                },
+                en: {
+                    pageTitle: 'Clean Text',
+                    heroTitle: 'Clean Up <span class="gradient-text-green">AI-Generated Text</span>',
+                    heroDesc: 'Remove extra spaces, special characters, emojis, duplicate words, and format raw AI responses into clean, readable text.',
+                    optExtraSpaces: 'Extra Spaces',
+                    optSpecialChars: 'Special Chars <br> (Do not use for Thai)',
+                    optLineBreaks: 'Empty Lines',
+                    optDuplicateWords: 'Duplicate Words',
+                    optTrimEnds: 'Trim Line Ends',
+                    optRemoveMarkdown: 'Markdown Symbols',
+                    optAIFiller: 'AI Filler Phrases',
+                    optFixCaps: 'Fix Capitalization',
+                    optRemoveNumbers: 'List Numbers',
+                    optNormalize: 'Smart Line Breaks',
+                    optRemoveCodeBlocks: 'Code Blocks',
+                    sourceTitle: 'AI Text',
+                    pasteBtn: 'Paste',
+                    clearBtn: 'Clear',
+                    inputPlaceholder: 'Paste text from ChatGPT, Gemini, Claude, or other AI models here...\n\nExample:\n```\nCertainly! Here is the answer...\n```',
+                    outputTitle: 'Cleaned Text',
+                    copyBtn: 'Copy',
+                    statRemovedLabel: 'Characters Removed',
+                    statRemainingLabel: 'Remaining Characters',
+                    statLinesLabel: 'Lines',
+                    statWordsLabel: 'Words',
+                },
+            };
+
+            let currentLang = localStorage.getItem('linklift-lang') || localStorage.getItem('lang') || 'th';
+            if (currentLang !== 'en' && currentLang !== 'th') currentLang = 'th';
+
+            function translateDynamicText(el) {
+                if (!el) return;
+                const text = el.textContent || '';
+                if (currentLang === 'en') {
+                    const next = text
+                        .replace(/ตัวอักษร/g, 'chars')
+                        .replace(/คำ/g, 'words')
+                        .replace(/ลดไป/g, 'Reduced by');
+                    if (next !== text) el.textContent = next;
+                } else {
+                    const next = text
+                        .replace(/chars/g, 'ตัวอักษร')
+                        .replace(/words/g, 'คำ')
+                        .replace(/Reduced by/g, 'ลดไป');
+                    if (next !== text) el.textContent = next;
+                }
+            }
+
+            function applyLanguage(lang) {
+                currentLang = lang;
+                localStorage.setItem('linklift-lang', lang);
+                localStorage.setItem('lang', lang);
+                document.documentElement.lang = lang;
+
+                const dict = I18N[lang];
+                document.title = dict.pageTitle;
+
+                document.querySelectorAll('[data-lang-badge]').forEach((el) => {
+                    el.textContent = lang === 'th' ? 'EN' : 'TH';
+                });
+
+                document.querySelectorAll('[data-i18n]').forEach((el) => {
+                    const key = el.getAttribute('data-i18n');
+                    if (key && dict[key] !== undefined) el.textContent = dict[key];
+                });
+
+                document.querySelectorAll('[data-i18n-html]').forEach((el) => {
+                    const key = el.getAttribute('data-i18n-html');
+                    if (key && dict[key] !== undefined) el.innerHTML = dict[key];
+                });
+
+                document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
+                    const key = el.getAttribute('data-i18n-placeholder');
+                    if (key && dict[key] !== undefined) el.setAttribute('placeholder', dict[key]);
+                });
+
+                ['inputCharCount', 'inputWordCount', 'outputCharCount', 'savedPercent'].forEach((id) => {
+                    translateDynamicText(document.getElementById(id));
+                });
+            }
+
+            ['inputCharCount', 'inputWordCount', 'outputCharCount', 'savedPercent'].forEach((id) => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                const obs = new MutationObserver(() => {
+                    if (currentLang === 'en') translateDynamicText(el);
+                });
+                obs.observe(el, { childList: true, characterData: true, subtree: true });
+            });
+
+            document.querySelectorAll('[data-lang-toggle]').forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    applyLanguage(currentLang === 'th' ? 'en' : 'th');
+                });
+            });
+
+            // Mobile 3-bar Hamburger Menu Toggle
+            const menuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const iconOpen = document.getElementById('iconMenuOpen');
+            const iconClose = document.getElementById('iconMenuClose');
+
+            function setMobileMenu(open) {
+                if (!mobileMenu || !menuBtn) return;
+                mobileMenu.classList.toggle('hidden', !open);
+                mobileMenu.classList.toggle('flex', open);
+                menuBtn.setAttribute('aria-expanded', String(open));
+                if (iconOpen) iconOpen.classList.toggle('hidden', open);
+                if (iconClose) iconClose.classList.toggle('hidden', !open);
+            }
+
+            if (menuBtn && mobileMenu) {
+                menuBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const isOpen = !mobileMenu.classList.contains('hidden');
+                    setMobileMenu(!isOpen);
+                });
+
+                document.addEventListener('click', (e) => {
+                    if (!mobileMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+                        setMobileMenu(false);
+                    }
+                });
+            }
+            applyLanguage(currentLang);
+        })();
+    </script>
     <script type="module" src="src/clean-text.js"></script>
 </body>
 </html>

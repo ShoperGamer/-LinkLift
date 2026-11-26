@@ -12,19 +12,76 @@
 </head>
 <body class="bg-[#050505] text-slate-100 min-h-screen flex flex-col antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
 
-  <!-- Top Navigation (เชื่อมต่อกับหน้าอื่นใน -LinkLift) -->
+  <!-- Top Navigation -->
   <header class="sticky top-0 z-40 border-b border-white/10 bg-[#050505]/90 backdrop-blur-md">
-    <div class="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between gap-4">
-      <a href="./index.html" class="flex items-center gap-2.5 text-slate-100 hover:text-cyan-400 transition-colors">
-        <img src="./logo.png" alt="LinkLift" class="w-7 h-7 rounded-lg object-cover border border-white/10" />
-        <span class="font-bold tracking-tight text-base">LinkLift <span class="text-cyan-400 font-mono text-xs px-1.5 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/20">ThaiOCR</span></span>
-      </a>
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="h-14 flex items-center justify-between gap-4">
+        <a href="./index.html" class="flex items-center gap-2.5 text-slate-100 hover:text-cyan-400 transition-colors">
+          <img src="./logo.png" alt="LinkLift" class="w-7 h-7 rounded-lg object-cover border border-white/10" />
+          <span class="font-bold tracking-tight text-base">LinkLift<span class="text-cyan-400 font-mono text-xs px-1.5 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/20">ThaiOCR</span></span>
+        </a>
 
-      <nav class="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm">
-        <a href="https://swiftqr.pages.dev" class="px-2.5 py-1.5 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-white/5 transition-colors">SwiftQR</a>
-        <a href="./clean-text.html" class="px-2.5 py-1.5 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-white/5 transition-colors">Clean Text</a>
-        <a href="./markdown.html" class="px-2.5 py-1.5 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-white/5 transition-colors">Markdown</a>
-        <a href="./thaiocr.html" class="px-2.5 py-1.5 rounded-lg bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 font-medium">ThaiOCR</a>
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center gap-1.5 text-sm">
+          <a href="https://swiftqr.pages.dev" class="px-2.5 py-1.5 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-white/5 transition-colors">SwiftQR</a>
+          <a href="./clean-text.html" class="px-2.5 py-1.5 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-white/5 transition-colors">Clean Text</a>
+          <a href="./markdown.html" class="px-2.5 py-1.5 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-white/5 transition-colors">Markdown</a>
+          <a href="./thaiocr.html" class="px-2.5 py-1.5 rounded-lg bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 font-medium">ThaiOCR</a>
+
+          <button
+            type="button"
+            data-lang-toggle
+            aria-label="Switch Language"
+            title="Switch to English / เปลี่ยนเป็นภาษาไทย"
+            class="ml-1.5 px-2.5 py-1.5 rounded-lg bg-slate-900 hover:bg-cyan-500/15 text-slate-200 hover:text-cyan-300 border border-white/15 hover:border-cyan-500/30 font-mono text-xs transition-colors inline-flex items-center gap-1.5 cursor-pointer"
+          >
+            <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"></path>
+            </svg>
+            <span data-lang-badge>EN</span>
+          </button>
+        </nav>
+
+        <!-- Mobile Controls: Language Toggle + 3-Bar Hamburger Button -->
+        <div class="flex items-center gap-2 md:hidden">
+          <button
+            type="button"
+            data-lang-toggle
+            aria-label="Switch Language"
+            class="px-2.5 py-1.5 rounded-lg bg-slate-900 hover:bg-cyan-500/15 text-slate-200 hover:text-cyan-300 border border-white/15 font-mono text-xs transition-colors inline-flex items-center gap-1 cursor-pointer"
+          >
+            <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"></path>
+            </svg>
+            <span data-lang-badge>EN</span>
+          </button>
+
+          <button
+            type="button"
+            id="mobileMenuBtn"
+            aria-controls="mobileMenu"
+            aria-expanded="false"
+            aria-label="เปิดเมนูนำทาง"
+            class="p-1.5 rounded-lg text-slate-200 hover:text-cyan-300 hover:bg-white/5 border border-white/15 transition-colors cursor-pointer"
+          >
+            <svg id="iconMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+            <svg id="iconMenuClose" class="w-6 h-6 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Collapsible Navigation Menu -->
+      <nav id="mobileMenu" class="hidden md:hidden pb-3 pt-2 border-t border-white/10 flex-col gap-1.5 text-sm" aria-label="เมนูมือถือ">
+        <a href="https://swiftqr.pages.dev" class="px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 transition-colors">SwiftQR</a>
+        <a href="./clean-text.html" class="px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 transition-colors">Clean Text</a>
+        <a href="./markdown.html" class="px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 transition-colors">Markdown</a>
+        <a href="./thaiocr.html" class="px-3 py-2 rounded-lg bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 font-medium">ThaiOCR</a>
       </nav>
     </div>
   </header>
@@ -40,8 +97,8 @@
           </svg>
           ThaiOCR
         </h1>
-        <p class="text-sm text-slate-400 mt-1">
-          ประมวลผลภาพและ PDF หลายร้อยหน้าในเครื่อง 100% ไม่อัปโหลดไฟล์ขึ้นเซิร์ฟเวอร์ โหลดโมเดลในโปรเจกต์และแคชไว้ใช้งานออฟไลน์
+        <p class="text-sm text-slate-400 mt-1" data-i18n="heroSubtitle">
+          ประมวลผลภาพและ PDF หลายร้อยหน้าในเครื่อง 100% ไม่อัปโหลดไฟล์ขึ้นเซิร์ฟเวอร์ โหลดโมเดลและแคชไว้ใช้งานออฟไลน์
         </p>
       </div>
 
@@ -55,19 +112,20 @@
       </div>
     </section>
 
-    <!-- Section 1: Local / Hugging Face Model Loader & Cache Control -->
+    <!-- Section 1: Hugging Face / Local Model Loader & Cache Control -->
     <section class="rounded-xl bg-slate-950/90 border border-white/10 p-4 sm:p-5 space-y-4">
       <div class="flex flex-col lg:flex-row lg:items-end gap-3">
         <div class="flex-1 space-y-1.5">
-          <label for="hf-model-id" class="block text-xs font-medium text-slate-300">
-            แหล่งโมเดล OCR (ค่าเริ่มต้นใช้ไฟล์ในโฟลเดอร์ <code class="text-cyan-400">./models/</code> หรือใส่ Hugging Face Repo ID)
+          <label for="hf-model-id" class="block text-xs font-medium text-slate-300" data-i18n-html="modelLabel">
+            แหล่งโมเดล Thai-OCR 
           </label>
           <div class="flex flex-col sm:flex-row gap-2">
             <input
               id="hf-model-id"
               type="text"
-              value="./models/"
-              placeholder="เช่น ./models/ หรือ iapp/OpenThai2.1-OCR-Text-20261118"
+              value="iapp/OpenThai2.1-OCR-Text-20261118"
+              data-i18n-placeholder="modelPlaceholder"
+              placeholder="เช่น iapp/OpenThai2.1-OCR-Text-20261118"
               class="flex-1 rounded-lg bg-[#050505] border border-white/15 px-3 py-2 text-sm font-mono text-cyan-300 focus:outline-none focus:border-cyan-500"
             />
             <select
@@ -75,7 +133,7 @@
               aria-label="เลือกแหล่งโมเดล"
               class="rounded-lg bg-[#050505] border border-white/15 px-3 py-2 text-xs text-slate-300 focus:outline-none focus:border-cyan-500"
             >
-              <option value="iapp/OpenThai2.1-OCR-Text-20261118">OpenThai2.1-OCR</option>
+              <option value="iapp/OpenThai2.1-OCR-Text-20261118" selected>OpenThai2.1-OCR</option>
               <option value="dojojin/hippocraft-thai-ocr-rec">Hippocraft-Thai-OCR</option>
             </select>
           </div>
@@ -90,12 +148,13 @@
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            โหลดและแคชโมเดล
+            <span data-i18n="btnLoadModel">โหลดและแคชโมเดล</span>
           </button>
 
           <button
             id="btn-clear-cache"
             type="button"
+            data-i18n="btnClearCache"
             title="ลบไฟล์โมเดลที่แคชไว้ในเบราว์เซอร์"
             class="px-3 py-2 rounded-lg bg-slate-900 hover:bg-rose-950/60 text-slate-300 hover:text-rose-300 border border-white/10 hover:border-rose-500/30 text-xs transition-colors cursor-pointer"
           >
@@ -139,22 +198,22 @@
               <polyline points="9 15 12 12 15 15" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </div>
-          <p class="text-sm font-semibold text-white">ลากไฟล์มาวาง หรือคลิกเพื่อเลือกไฟล์</p>
-          <p class="text-xs text-slate-400 mt-1">รองรับ PDF และรูปภาพ PNG, JPG, WEBP</p>
+          <p class="text-sm font-semibold text-white" data-i18n="dropTitle">ลากไฟล์มาวาง หรือคลิกเพื่อเลือกไฟล์</p>
+          <p class="text-xs text-slate-400 mt-1" data-i18n="dropSubtitle">รองรับ PDF และรูปภาพ PNG, JPG, WEBP</p>
           <p id="selected-file-label" class="text-xs font-mono text-cyan-400 mt-3 truncate max-w-full"></p>
         </div>
 
         <!-- Pipeline Controls -->
         <div class="rounded-xl bg-slate-950/90 border border-white/10 p-4 space-y-3 text-xs">
-          <div class="font-semibold text-slate-200 uppercase tracking-wider text-[11px]">ตั้งค่าการประมวลผล</div>
+          <div class="font-semibold text-slate-200 uppercase tracking-wider text-[11px]" data-i18n="settingsHeader">ตั้งค่าการประมวลผล</div>
 
           <div class="space-y-1.5">
             <div class="flex justify-between text-slate-400">
-              <label for="opt-pdf-scale">ความละเอียด Render PDF (Scale)</label>
+              <label for="opt-pdf-scale" data-i18n="scaleLabel">ความละเอียด Render PDF (Scale)</label>
               <span id="opt-pdf-scale-val" class="font-mono text-cyan-400">2.75x</span>
             </div>
             <input id="opt-pdf-scale" type="range" min="1.5" max="3.0" step="0.25" value="2.75" class="w-full accent-cyan-500" />
-            <p class="text-[11px] text-slate-500">
+            <p class="text-[11px] text-slate-500" data-i18n="scaleHint">
               ค่าเริ่มต้น 2.75x (~200 DPI) ให้ความแม่นยำใกล้เคียงเวอร์ชัน Python สูงสุด ลดลงได้หากต้องการให้ไวขึ้น
             </p>
           </div>
@@ -164,6 +223,7 @@
               id="btn-start-ocr"
               type="button"
               disabled
+              data-i18n="btnStartOcr"
               class="flex-1 py-2.5 px-4 rounded-lg bg-emerald-500 hover:bg-emerald-400 disabled:bg-slate-800 disabled:text-slate-500 text-slate-950 font-semibold text-sm transition-colors cursor-pointer disabled:cursor-not-allowed"
             >
               เริ่มถอดข้อความ
@@ -171,6 +231,7 @@
             <button
               id="btn-cancel-ocr"
               type="button"
+              data-i18n="btnCancelOcr"
               class="hidden py-2.5 px-3.5 rounded-lg bg-rose-600 hover:bg-rose-500 text-white font-semibold text-sm transition-colors cursor-pointer"
             >
               หยุด
@@ -207,19 +268,19 @@
           <!-- Live Telemetry Metrics -->
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 text-[11px] font-mono">
             <div class="rounded-lg bg-[#050505] border border-white/5 px-2.5 py-1.5">
-              <span class="text-slate-500 block">ใช้เวลาไปแล้ว</span>
+              <span class="text-slate-500 block" data-i18n="statElapsedLabel">ใช้เวลาไปแล้ว</span>
               <span id="stat-elapsed" class="text-slate-200">00:00</span>
             </div>
             <div class="rounded-lg bg-[#050505] border border-white/5 px-2.5 py-1.5">
-              <span class="text-slate-500 block">เวลาที่เหลือ (ETA)</span>
+              <span class="text-slate-500 block" data-i18n="statEtaLabel">เวลาที่เหลือ (ETA)</span>
               <span id="stat-eta" class="text-slate-200">--:--</span>
             </div>
             <div class="rounded-lg bg-[#050505] border border-white/5 px-2.5 py-1.5">
-              <span class="text-slate-500 block">ความเร็วเฉลี่ย</span>
+              <span class="text-slate-500 block" data-i18n="statSpeedLabel">ความเร็วเฉลี่ย</span>
               <span id="stat-speed" class="text-slate-200">- วิ/หน้า</span>
             </div>
             <div class="rounded-lg bg-[#050505] border border-white/5 px-2.5 py-1.5">
-              <span class="text-slate-500 block">เวลาหน้าล่าสุด</span>
+              <span class="text-slate-500 block" data-i18n="statLastPageLabel">เวลาหน้าล่าสุด</span>
               <span id="stat-last-page" class="text-emerald-400">- วิ</span>
             </div>
           </div>
@@ -229,21 +290,21 @@
         <div class="flex-1 rounded-xl bg-slate-950/90 border border-white/10 flex flex-col overflow-hidden min-h-[360px]">
           <div class="px-4 py-2.5 border-b border-white/10 flex flex-wrap items-center justify-between gap-2 bg-[#08080c]">
             <div class="flex items-center gap-2 text-xs">
-              <span class="font-semibold text-slate-200">ผลลัพธ์ข้อความ</span>
+              <span class="font-semibold text-slate-200" data-i18n="outputHeader">ผลลัพธ์ข้อความ</span>
               <span id="output-info-badge" class="font-mono text-[11px] text-slate-400">(บันทึกอัตโนมัติใน IndexedDB)</span>
             </div>
 
             <div class="flex flex-wrap items-center gap-1.5 text-xs">
-              <button id="btn-copy-all" type="button" class="px-2.5 py-1.5 rounded-md bg-white/5 hover:bg-white/10 text-slate-200 border border-white/10 transition-colors cursor-pointer">
+              <button id="btn-copy-all" type="button" data-i18n="btnCopyAll" class="px-2.5 py-1.5 rounded-md bg-white/5 hover:bg-white/10 text-slate-200 border border-white/10 transition-colors cursor-pointer">
                 คัดลอกทั้งหมด
               </button>
-              <button id="btn-download-txt" type="button" class="px-2.5 py-1.5 rounded-md bg-white/5 hover:bg-white/10 text-slate-200 border border-white/10 transition-colors cursor-pointer">
+              <button id="btn-download-txt" type="button" data-i18n="btnDownloadTxt" class="px-2.5 py-1.5 rounded-md bg-white/5 hover:bg-white/10 text-slate-200 border border-white/10 transition-colors cursor-pointer">
                 โหลด .TXT
               </button>
-              <button id="btn-download-md" type="button" class="px-2.5 py-1.5 rounded-md bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 transition-colors cursor-pointer">
+              <button id="btn-download-md" type="button" data-i18n="btnDownloadMd" class="px-2.5 py-1.5 rounded-md bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 transition-colors cursor-pointer">
                 โหลด .MD
               </button>
-              <button id="btn-clear-output" type="button" class="px-2.5 py-1.5 rounded-md bg-white/5 hover:bg-rose-500/20 text-slate-400 hover:text-rose-300 border border-white/10 transition-colors cursor-pointer">
+              <button id="btn-clear-output" type="button" data-i18n="btnClearOutput" class="px-2.5 py-1.5 rounded-md bg-white/5 hover:bg-rose-500/20 text-slate-400 hover:text-rose-300 border border-white/10 transition-colors cursor-pointer">
                 ล้างผลลัพธ์
               </button>
             </div>
@@ -252,6 +313,7 @@
           <textarea
             id="ocr-output-text"
             readonly
+            data-i18n-placeholder="outputPlaceholder"
             placeholder="ผลลัพธ์จากการถอดข้อความจะปรากฏที่นี่แบบเรียลไทม์ทีละหน้า..."
             class="flex-1 w-full bg-[#050505] p-4 text-sm leading-relaxed text-slate-200 font-sans resize-none focus:outline-none ocr-scrollbar"
           ></textarea>
@@ -261,6 +323,209 @@
     </section>
   </main>
 
+  <script>
+    (function () {
+      const I18N = {
+        th: {
+          pageTitle: 'ThaiOCR',
+          heroSubtitle: 'ประมวลผลภาพและ PDF หลายร้อยหน้าในเครื่อง 100% ไม่อัปโหลดไฟล์ขึ้นเซิร์ฟเวอร์ โหลดโมเดลและแคชไว้ใช้งานออฟไลน์',
+          modelLabel: 'แหล่งโมเดล OCR (เลือกจากรายการ Hugging Face หรือระบุพาธโฟลเดอร์ <code class="text-cyan-400">./models/</code>)',
+          modelPlaceholder: 'เช่น iapp/OpenThai2.1-OCR-Text-20261118 หรือ ./models/',
+          btnLoadModel: 'โหลดและแคชโมเดล',
+          btnClearCache: 'ล้าง Cache',
+          dropTitle: 'ลากไฟล์มาวาง หรือคลิกเพื่อเลือกไฟล์',
+          dropSubtitle: 'รองรับ PDF และรูปภาพ PNG, JPG, WEBP',
+          settingsHeader: 'ตั้งค่าการประมวลผล',
+          scaleLabel: 'ความละเอียด Render PDF (Scale)',
+          scaleHint: 'ค่าเริ่มต้น 2.75x (~200 DPI) ให้ความแม่นยำใกล้เคียงเวอร์ชัน Python สูงสุด ลดลงได้หากต้องการให้ไวขึ้น',
+          btnStartOcr: 'เริ่มถอดข้อความ',
+          btnCancelOcr: 'หยุด',
+          statElapsedLabel: 'ใช้เวลาไปแล้ว',
+          statEtaLabel: 'เวลาที่เหลือ (ETA)',
+          statSpeedLabel: 'ความเร็วเฉลี่ย',
+          statLastPageLabel: 'เวลาหน้าล่าสุด',
+          outputHeader: 'ผลลัพธ์ข้อความ',
+          btnCopyAll: 'คัดลอกทั้งหมด',
+          btnDownloadTxt: 'โหลด .TXT',
+          btnDownloadMd: 'โหลด .MD',
+          btnClearOutput: 'ล้างผลลัพธ์',
+          outputPlaceholder: 'ผลลัพธ์จากการถอดข้อความจะปรากฏที่นี่แบบเรียลไทม์ทีละหน้า...',
+        },
+        en: {
+          pageTitle: 'ThaiOCR — Client-Side AI OCR',
+          heroSubtitle: 'Process images and multi-hundred-page PDFs 100% locally in your browser—zero server uploads, with offline model caching.',
+          modelLabel: 'OCR Model Source (choose a Hugging Face preset or enter a local <code class="text-cyan-400">./models/</code> path)',
+          modelPlaceholder: 'e.g. iapp/OpenThai2.1-OCR-Text-20261118 or ./models/',
+          btnLoadModel: 'Load & Cache Model',
+          btnClearCache: 'Clear Cache',
+          dropTitle: 'Drag & drop files here, or click to browse',
+          dropSubtitle: 'Supports PDF and PNG, JPG, WEBP images',
+          settingsHeader: 'Processing Settings',
+          scaleLabel: 'PDF Render Resolution (Scale)',
+          scaleHint: 'Default 2.75x (~200 DPI) matches Python accuracy closely. Lower it for faster processing.',
+          btnStartOcr: 'Start OCR',
+          btnCancelOcr: 'Stop',
+          statElapsedLabel: 'Elapsed Time',
+          statEtaLabel: 'Time Remaining (ETA)',
+          statSpeedLabel: 'Avg. Speed',
+          statLastPageLabel: 'Last Page Time',
+          outputHeader: 'Extracted Text',
+          btnCopyAll: 'Copy All',
+          btnDownloadTxt: 'Download .TXT',
+          btnDownloadMd: 'Download .MD',
+          btnClearOutput: 'Clear Output',
+          outputPlaceholder: 'Extracted text will appear here in real time page by page...',
+        },
+      };
+
+      let currentLang = localStorage.getItem('linklift-lang') || localStorage.getItem('lang') || 'th';
+      if (currentLang !== 'en' && currentLang !== 'th') currentLang = 'th';
+
+      const EN_PAIRS = [
+        ['ตรวจสอบ...', 'Detecting...'],
+        ['รอโหลดโมเดล', 'Waiting for model'],
+        ['โหลดจาก Cache สำเร็จ', 'Loaded from cache'],
+        ['บันทึกลง Cache แล้ว', 'Saved to cache'],
+        ['ล้างแล้ว', 'Cleared'],
+        ['พร้อมทำงาน', 'Ready'],
+        ['ถอดข้อความเสร็จสมบูรณ์ 100%', 'OCR completed 100%'],
+        ['ถอดข้อความเสร็จสมบูรณ์', 'OCR completed'],
+        ['กำลังหยุดการทำงาน...', 'Stopping...'],
+        ['(บันทึกอัตโนมัติใน IndexedDB)', '(Auto-saved in IndexedDB)'],
+        ['กำลังโหลดไฟล์โมเดล...', 'Downloading model files...'],
+        ['กำลังเตรียมโหลดไฟล์โมเดล...', 'Preparing model download...'],
+        ['คัดลอกแล้ว!', 'Copied!'],
+        ['ถอดโครงสร้างตารางอัตโนมัติ (Markdown Table)', 'Auto-extract tables (Markdown Table)'],
+      ];
+
+      function translateDynamicNode(el) {
+        if (!el || !el.textContent) return;
+        let text = el.textContent;
+        if (currentLang === 'en') {
+          for (const [th, en] of EN_PAIRS) {
+            if (text.includes(th)) text = text.replace(th, en);
+          }
+          text = text
+            .replace(/(\d+)\s*\/\s*(\d+)\s*หน้า/g, '$1 / $2 pages')
+            .replace(/วิ\/หน้า/g, 's/page')
+            .replace(/(\d+(?:\.\d+)?|-)\s*วิ(?=\s|$)/g, '$1 s')
+            .replace(/เลือกไฟล์รูปภาพทั้งหมด\s*(\d+)\s*ไฟล์/g, 'Selected $1 image files')
+            .replace(/เลือกไฟล์:/g, 'Selected:')
+            .replace(/กู้คืนข้อมูลเดิม\s*(\d+)\s*หน้าจาก IndexedDB/g, 'Restored $1 pages from IndexedDB')
+            .replace(/กำลังประมวลผลหน้า\s*(\d+)\s*\/\s*(\d+)\.\.\./g, 'Processing page $1 / $2...')
+            .replace(/เริ่มต้นอ่าน PDF ทั้งหมด\s*(\d+)\s*หน้า\.\.\./g, 'Reading PDF ($1 pages total)...')
+            .replace(/กำลังประมวลผลรูปภาพ\s*(\d+)\s*ไฟล์\.\.\./g, 'Processing $1 images...');
+        } else {
+          for (const [th, en] of EN_PAIRS) {
+            if (text.includes(en)) text = text.replace(en, th);
+          }
+          text = text
+            .replace(/(\d+)\s*\/\s*(\d+)\s*pages/g, '$1 / $2 หน้า')
+            .replace(/s\/page/g, 'วิ/หน้า')
+            .replace(/(\d+(?:\.\d+)?|-)\s*s(?=\s|$)/g, '$1 วิ')
+            .replace(/Selected (\d+) image files/g, 'เลือกไฟล์รูปภาพทั้งหมด $1 ไฟล์')
+            .replace(/Selected:/g, 'เลือกไฟล์:')
+            .replace(/Restored (\d+) pages from IndexedDB/g, 'กู้คืนข้อมูลเดิม $1 หน้าจาก IndexedDB')
+            .replace(/Processing page (\d+) \/ (\d+)\.\.\./g, 'กำลังประมวลผลหน้า $1 / $2...')
+            .replace(/Reading PDF \((\d+) pages total\)\.\.\./g, 'เริ่มต้นอ่าน PDF ทั้งหมด $1 หน้า...')
+            .replace(/Processing (\d+) images\.\.\./g, 'กำลังประมวลผลรูปภาพ $1 ไฟล์...');
+        }
+        if (text !== el.textContent) el.textContent = text;
+      }
+
+      const DYNAMIC_IDS = [
+        'badge-device',
+        'badge-cache',
+        'model-status-text',
+        'selected-file-label',
+        'ocr-phase-label',
+        'ocr-counter-label',
+        'stat-speed',
+        'stat-last-page',
+        'output-info-badge',
+        'btn-copy-all',
+      ];
+
+      function applyLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem('linklift-lang', lang);
+        localStorage.setItem('lang', lang);
+        document.documentElement.lang = lang;
+
+        const dict = I18N[lang];
+        document.title = dict.pageTitle;
+
+        document.querySelectorAll('[data-lang-badge]').forEach((el) => {
+          el.textContent = lang === 'th' ? 'EN' : 'TH';
+        });
+
+        document.querySelectorAll('[data-i18n]').forEach((el) => {
+          const key = el.getAttribute('data-i18n');
+          if (key && dict[key] !== undefined) el.textContent = dict[key];
+        });
+
+        document.querySelectorAll('[data-i18n-html]').forEach((el) => {
+          const key = el.getAttribute('data-i18n-html');
+          if (key && dict[key] !== undefined) el.innerHTML = dict[key];
+        });
+
+        document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
+          const key = el.getAttribute('data-i18n-placeholder');
+          if (key && dict[key] !== undefined) el.setAttribute('placeholder', dict[key]);
+        });
+
+        DYNAMIC_IDS.forEach((id) => translateDynamicNode(document.getElementById(id)));
+        const tableToggleSpan = document.querySelector('#opt-extract-tables')?.parentElement?.querySelector('span');
+        if (tableToggleSpan) translateDynamicNode(tableToggleSpan);
+      }
+
+      DYNAMIC_IDS.forEach((id) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const obs = new MutationObserver(() => {
+          if (currentLang === 'en') translateDynamicNode(el);
+        });
+        obs.observe(el, { childList: true, characterData: true, subtree: true });
+      });
+
+      document.querySelectorAll('[data-lang-toggle]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          applyLanguage(currentLang === 'th' ? 'en' : 'th');
+        });
+      });
+
+      // Mobile 3-bar Hamburger Menu Toggle
+      const menuBtn = document.getElementById('mobileMenuBtn');
+      const mobileMenu = document.getElementById('mobileMenu');
+      const iconOpen = document.getElementById('iconMenuOpen');
+      const iconClose = document.getElementById('iconMenuClose');
+
+      function setMobileMenu(open) {
+        if (!mobileMenu || !menuBtn) return;
+        mobileMenu.classList.toggle('hidden', !open);
+        mobileMenu.classList.toggle('flex', open);
+        menuBtn.setAttribute('aria-expanded', String(open));
+        if (iconOpen) iconOpen.classList.toggle('hidden', open);
+        if (iconClose) iconClose.classList.toggle('hidden', !open);
+      }
+
+      if (menuBtn && mobileMenu) {
+        menuBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const isOpen = !mobileMenu.classList.contains('hidden');
+          setMobileMenu(!isOpen);
+        });
+
+        document.addEventListener('click', (e) => {
+          if (!mobileMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+            setMobileMenu(false);
+          }
+        });
+      }
+
+      applyLanguage(currentLang);
+    })();
+  </script>
   <script type="module" src="./src/sw-register.js"></script>
   <script type="module" src="./src/ocr.ts"></script>
 </body>

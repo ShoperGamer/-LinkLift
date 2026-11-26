@@ -1,6 +1,5 @@
 /// <reference types="vite/client" />
 import * as ort from 'onnxruntime-web/wasm';
-import ortWasmUrl from 'onnxruntime-web/ort-wasm-simd-threaded.wasm?url';
 import ortMjsUrl from 'onnxruntime-web/ort-wasm-simd-threaded.mjs?url';
 
 interface FileProgressEntry {
@@ -60,6 +59,8 @@ type WorkerInMessage =
   | { type: 'CLEAR_CACHE' };
 
 const DEFAULT_BASE_MODEL_ID = 'iapp/OpenThai2.1-OCR-Text-20261118';
+const ORT_WASM_HF_URL =
+  'https://huggingface.co/ShoperGamer/linklift-thaiocr/resolve/main/ort-wasm-simd-threaded.wasm';
 
 const CFG = {
   det: {
@@ -123,6 +124,7 @@ let recSession: ort.InferenceSession | null = null;
 let rec2Session: ort.InferenceSession | null = null;
 let charList: string[] = [''];
 let loadedModelKey: string | null = null;
+let cachedOrtWasmBlobUrl: string | null = null;
 
 // ============================================================================
 // 0. thai_norm.py + Script & Thai OCR Post-Processing Helpers
@@ -332,14 +334,31 @@ function lineHeight(boxes: RectBox[]): number {
 }
 
 // ============================================================================
-// 1. ONNX Runtime WASM + Model Loader + Cache API
+// 1. ONNX Runtime WASM (Hugging Face + Cache API) + Model Loader
 // ============================================================================
-function configureOrtWasm(): void {
+async function ensureOrtWasmConfigured(
+  progressState: ProgressState,
+  onProgress: (currentFile: string, state: ProgressState) => void
+): Promise<void> {
+  if (!cachedOrtWasmBlobUrl) {
+    const wasmBuffer = (await fetchAssetFromUrl(
+      ORT_WASM_HF_URL,
+      'ort-wasm-simd-threaded.wasm',
+      'arrayBuffer',
+      'application/wasm',
+      progressState,
+      onProgress
+    )) as ArrayBuffer;
+
+    const wasmBlob = new Blob([wasmBuffer], { type: 'application/wasm' });
+    cachedOrtWasmBlobUrl = URL.createObjectURL(wasmBlob);
+  }
+
   ort.env.wasm.numThreads = 1;
   ort.env.wasm.simd = true;
   ort.env.wasm.wasmPaths = {
-    wasm: ortWasmUrl,
     mjs: ortMjsUrl,
+    wasm: cachedOrtWasmBlobUrl,
   };
 }
 
@@ -524,8 +543,6 @@ async function loadOpenThaiModel(
     return;
   }
 
-  configureOrtWasm();
-
   self.postMessage({
     type: 'MODEL_STATUS',
     status: 'init',
@@ -535,6 +552,10 @@ async function loadOpenThaiModel(
 
   const progressState: ProgressState = { networkDownloaded: false, files: {} };
 
+  // 0) โหลด ONNX Runtime WebAssembly (.wasm) จาก Hugging Face และแคชลง Browser Cache API
+  await ensureOrtWasmConfigured(progressState, emitModelProgress);
+
+  // 1) โหลด det.onnx
   let detBuffer: ArrayBuffer;
   try {
     detBuffer = (await fetchAssetFromUrl(
@@ -561,6 +582,7 @@ async function loadOpenThaiModel(
     }
   }
 
+  // 2) โหลดโมเดล Recognition หลัก
   const recBuffer = (await fetchAssetFromUrl(
     resolveAssetUrl(primarySource, resolvedRecFile),
     resolvedRecFile,
@@ -570,6 +592,7 @@ async function loadOpenThaiModel(
     emitModelProgress
   )) as ArrayBuffer;
 
+  // 3) โหลด rec2.onnx (เฉพาะรุ่นที่มี rec2)
   let rec2Buffer: ArrayBuffer | null = null;
   if (resolvedRec2File) {
     rec2Buffer = (await fetchAssetFromUrl(
@@ -582,6 +605,7 @@ async function loadOpenThaiModel(
     )) as ArrayBuffer;
   }
 
+  // 4) โหลด Dictionary
   const dictText = await fetchDictWithFallback(
     primarySource,
     resolvedDetSource,
@@ -1565,7 +1589,6 @@ function buildMarkdownTable(matrix: string[][]): string {
   const colCount = Math.max(...matrix.map((r) => r.length));
   if (colCount < 2) return '';
 
-  // ตัดคอลัมน์ที่ว่างทั้งหมดออก (เช่น ขอบตารางที่ไม่มีตัวอักษร)
   const nonEmptyCols: number[] = [];
   for (let c = 0; c < colCount; c++) {
     if (matrix.some((row) => (row[c] ?? '').trim().length > 0)) {
@@ -1876,7 +1899,6 @@ function extractBorderedGridTables(
 function buildBorderlessTableFromRows(rowRun: ParsedRowInfo[], hmed: number): string | null {
   if (rowRun.length < CFG.table.minBorderlessRows) return null;
 
-  // จัดกลุ่มตำแหน่ง X ของ segment ทั้งหมดในชุดแถวนี้เพื่อหาคอลัมน์หลัก
   const allSegs: RowCellSegment[] = [];
   for (const r of rowRun) {
     for (const seg of r.segments) allSegs.push(seg);
@@ -1962,7 +1984,6 @@ function buildBorderlessTableFromRows(rowRun: ParsedRowInfo[], hmed: number): st
     matrix.push(cells);
   }
 
-  // ต้องมีอย่างน้อย 60% ของแถวในตารางที่มีข้อมูลอย่างน้อย 2 คอลัมน์
   if (multiColRowCount < Math.ceil(rowRun.length * 0.6)) return null;
 
   return buildMarkdownTable(matrix);
@@ -2062,7 +2083,6 @@ function buildTextAndBorderlessTableBlocks(
       }
     }
 
-    // รวมบรรทัดข้อความปกติเป็นย่อหน้าตามระยะห่างบรรทัด
     const paraLines: string[] = [parsedRows[idx].plainText];
     const startY0 = parsedRows[idx].y0;
     let prevY0 = parsedRows[idx].y0;
@@ -2179,12 +2199,10 @@ async function runOcrOnBitmap(pageNum: number, bitmap: ImageBitmap): Promise<voi
     const hmed = lineHeight(finalBoxes);
     const allTexts = finalRecs.map((r) => r.text);
 
-    // 1) ถอดตารางที่มีเส้นขอบ (Bordered Grid Tables) ก่อน
     const gridResult = CFG.table.enabled
       ? extractBorderedGridTables(sourceCanvas, finalBoxes, finalRecs, frag, hmed)
       : { blocks: [], consumedBoxIndices: new Set<number>() };
 
-    // 2) จัดเรียงข้อความและตารางไม่มีเส้นขอบสำหรับกล่องข้อความที่เหลือ
     const remainingIndices: number[] = [];
     for (let i = 0; i < finalBoxes.length; i++) {
       if (!gridResult.consumedBoxIndices.has(i)) {
@@ -2201,7 +2219,6 @@ async function runOcrOnBitmap(pageNum: number, bitmap: ImageBitmap): Promise<voi
       hmed
     );
 
-    // 3) รวมบล็อกข้อความและตารางเรียงตามลำดับจากบนลงล่างของหน้า
     const mergedBlocks: PageContentBlock[] = [
       ...gridResult.blocks,
       ...textAndBorderlessBlocks,
@@ -2234,6 +2251,10 @@ async function clearModelCache(): Promise<void> {
         await caches.delete(key);
       }
     }
+  }
+  if (cachedOrtWasmBlobUrl) {
+    URL.revokeObjectURL(cachedOrtWasmBlobUrl);
+    cachedOrtWasmBlobUrl = null;
   }
   detSession = null;
   recSession = null;

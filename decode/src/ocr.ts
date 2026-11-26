@@ -39,14 +39,14 @@ type WorkerOutMessage =
 
 const MODEL_PRESETS: ModelPresetOption[] = [
   {
-    label: 'iapp/OpenThai2.1-OCR-Text-20261118',
+    label: 'OpenThai2.1-OCR',
     modelId: 'iapp/OpenThai2.1-OCR-Text-20261118',
     detModelId: 'iapp/OpenThai2.1-OCR-Text-20261118',
     recFileName: 'rec.onnx',
     rec2FileName: 'rec2.onnx',
   },
   {
-    label: 'dojojin/hippocraft-thai-ocr-rec (hippocraft-thai-rec-v1.onnx)',
+    label: 'Hippocraft-Thai-OCR',
     modelId: 'dojojin/hippocraft-thai-ocr-rec',
     detModelId: 'iapp/OpenThai2.1-OCR-Text-20261118',
     recFileName: 'hippocraft-thai-rec-v1.onnx',
@@ -956,5 +956,8 @@ els.btnClearOutput.addEventListener('click', async () => {
     // ignore IndexedDB errors
   }
 
+  if (els.hfPresetSelect.value) {
+    els.hfModelId.value = els.hfPresetSelect.value;
+  }
   triggerLoadModel();
 })();
